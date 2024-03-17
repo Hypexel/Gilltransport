@@ -44,10 +44,10 @@
             font-size: 24px;
             margin-left: 15px;
         }
-        .right-mark {
+        .cash-received {
             color: #4CAF50;
         }
-        .wrong-mark {
+        .cash-pending {
             color: #FF5252;
         }
         .update-btn {
@@ -92,7 +92,7 @@
 
     <script>
         // Function to add a new item
-        function addItem(name, status) {
+        function addItem(name, cashReceived) {
             var itemsContainer = document.getElementById("items");
 
             var newItem = document.createElement("div");
@@ -100,9 +100,9 @@
             newItem.innerHTML = '<span class="item-name">' + name + '</span>';
 
             var statusIcon = document.createElement("span");
-            statusIcon.textContent = status ? "✔" : "❌";
+            statusIcon.textContent = cashReceived ? "✔" : "❌";
             statusIcon.classList.add("status-icon");
-            statusIcon.classList.add(status ? "right-mark" : "wrong-mark");
+            statusIcon.classList.add(cashReceived ? "cash-received" : "cash-pending");
 
             var updateBtn = document.createElement("button");
             updateBtn.textContent = "Update";
@@ -120,21 +120,21 @@
 
         // Sample data (can be replaced with dynamic data from backend)
         var items = [
-            { name: "Truck 1971", status: true },
-            { name: "Truck 7271", status: false },
-            { name: "Truck 8871", status: true },
-            { name: "Truck 1234", status: true },
-            { name: "Truck 5678", status: false },
-            { name: "Truck 9012", status: true },
-            { name: "Truck 3456", status: false },
-            { name: "Truck 7890", status: true },
-            { name: "Truck 6543", status: false },
-            { name: "Truck 2109", status: true }
+            { name: "Truck 1971", cashReceived: true },
+            { name: "Truck 7271", cashReceived: false },
+            { name: "Truck 8871", cashReceived: true },
+            { name: "Truck 1234", cashReceived: false },
+            { name: "Truck 5678", cashReceived: true },
+            { name: "Truck 9012", cashReceived: false },
+            { name: "Truck 3456", cashReceived: true },
+            { name: "Truck 7890", cashReceived: false },
+            { name: "Truck 6543", cashReceived: true },
+            { name: "Truck 2109", cashReceived: false }
         ];
 
         // Display existing items
         items.forEach(function(item) {
-            addItem(item.name, item.status);
+            addItem(item.name, item.cashReceived);
         });
     </script>
 </body>

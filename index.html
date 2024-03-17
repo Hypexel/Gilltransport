@@ -19,9 +19,9 @@
         }
         #items {
             margin: 20px auto;
-            max-width: 500px;
+            max-width: 700px;
             background-color: #fff;
-            border-radius: 8px;
+            border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
         }
@@ -29,7 +29,7 @@
             margin-bottom: 20px;
             padding: 15px 20px;
             background-color: #f9f9f9;
-            border-radius: 8px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -49,6 +49,38 @@
         }
         .wrong-mark {
             color: #FF5252;
+        }
+        .update-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .update-btn:hover {
+            background-color: #45a049;
+        }
+        .delete-btn {
+            background-color: #FF5252;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .delete-btn:hover {
+            background-color: #e53935;
         }
     </style>
 </head>
@@ -72,7 +104,17 @@
             statusIcon.classList.add("status-icon");
             statusIcon.classList.add(status ? "right-mark" : "wrong-mark");
 
+            var updateBtn = document.createElement("button");
+            updateBtn.textContent = "Update";
+            updateBtn.classList.add("update-btn");
+
+            var deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "Delete";
+            deleteBtn.classList.add("delete-btn");
+
             newItem.appendChild(statusIcon);
+            newItem.appendChild(updateBtn);
+            newItem.appendChild(deleteBtn);
             itemsContainer.appendChild(newItem);
         }
 
@@ -80,7 +122,14 @@
         var items = [
             { name: "Truck 1971", status: true },
             { name: "Truck 7271", status: false },
-            { name: "Truck 8871", status: true }
+            { name: "Truck 8871", status: true },
+            { name: "Truck 1234", status: true },
+            { name: "Truck 5678", status: false },
+            { name: "Truck 9012", status: true },
+            { name: "Truck 3456", status: false },
+            { name: "Truck 7890", status: true },
+            { name: "Truck 6543", status: false },
+            { name: "Truck 2109", status: true }
         ];
 
         // Display existing items

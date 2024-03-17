@@ -92,7 +92,7 @@
 
     <script>
         // Function to add a new item
-        function addItem(name, cashReceived) {
+        function addItem(name, cashReceived, index) {
             var itemsContainer = document.getElementById("items");
 
             var newItem = document.createElement("div");
@@ -107,6 +107,7 @@
             var updateBtn = document.createElement("button");
             updateBtn.textContent = "Update";
             updateBtn.classList.add("update-btn");
+            updateBtn.dataset.index = index;
 
             var deleteBtn = document.createElement("button");
             deleteBtn.textContent = "Delete";
@@ -116,6 +117,10 @@
             newItem.appendChild(updateBtn);
             newItem.appendChild(deleteBtn);
             itemsContainer.appendChild(newItem);
+
+            updateBtn.addEventListener('click', function() {
+                toggleCashReceived(this.dataset.index);
+            });
         }
 
         // Sample data (can be replaced with dynamic data from backend)
@@ -133,9 +138,24 @@
         ];
 
         // Display existing items
-        items.forEach(function(item) {
-            addItem(item.name, item.cashReceived);
+        items.forEach(function(item, index) {
+            addItem(item.name, item.cashReceived, index);
         });
+
+        // Function to toggle cash received status
+        function toggleCashReceived(index) {
+            items[index].cashReceived = !items[index].cashReceived;
+            updateItemList();
+        }
+
+        // Function to update item list after status change
+        function updateItemList() {
+            var itemsContainer = document.getElementById("items");
+            itemsContainer.innerHTML = '';
+            items.forEach(function(item, index) {
+                addItem(item.name, item.cashReceived, index);
+            });
+        }
     </script>
 </body>
 </html>

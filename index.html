@@ -6,10 +6,11 @@
     <title>Bhada From Transports</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
             margin: 0;
             padding: 0;
+            color: #333;
         }
         h1 {
             text-align: center;
@@ -19,14 +20,18 @@
         }
         #items {
             margin: 20px auto;
-            max-width: 700px;
+            max-width: 800px;
         }
         .item {
             margin-bottom: 20px;
             padding: 15px 20px;
             background-color: #fff;
             border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .item:hover {
+            transform: translateY(-5px);
         }
         .item-info {
             display: flex;
@@ -35,8 +40,7 @@
             margin-bottom: 10px;
         }
         .item-name {
-            font-size: 18px;
-            color: #333;
+            font-size: 20px;
             font-weight: bold;
         }
         .amount-to-collect {
@@ -57,9 +61,6 @@
             color: white;
             border: none;
             padding: 8px 15px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
             font-size: 14px;
             border-radius: 5px;
             cursor: pointer;
@@ -69,13 +70,10 @@
             background-color: #45a049;
         }
         .add-btn {
-            background-color: #4CAF50;
+            background-color: #3498db;
             color: white;
             border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
+            padding: 12px 25px;
             font-size: 16px;
             border-radius: 5px;
             cursor: pointer;
@@ -84,7 +82,7 @@
             margin-top: -40px;
         }
         .add-btn:hover {
-            background-color: #45a049;
+            background-color: #2980b9;
         }
         .update-menu {
             display: none;
@@ -97,11 +95,12 @@
             border-radius: 5px;
             padding: 20px;
             z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
         .update-menu input[type="text"] {
             width: calc(100% - 10px);
             margin-bottom: 10px;
-            padding: 5px;
+            padding: 8px;
             border: 1px solid #ccc;
             border-radius: 3px;
         }
@@ -115,10 +114,7 @@
             background-color: #4CAF50;
             color: white;
             border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
+            padding: 12px 25px;
             font-size: 16px;
             border-radius: 5px;
             cursor: pointer;

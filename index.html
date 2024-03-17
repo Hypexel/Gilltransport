@@ -118,7 +118,10 @@
             itemsContainer.appendChild(newItem);
 
             updateBtn.addEventListener('click', function() {
-                toggleCashReceived(this.dataset.index);
+                var confirmation = confirm("Are you sure you want to update the status of item '" + name + "'?");
+                if (confirmation) {
+                    toggleCashReceived(this.dataset.index);
+                }
             });
         }
 

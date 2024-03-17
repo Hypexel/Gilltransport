@@ -3,13 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bhada From transports</title>
+    <title>Bhada From Transports</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 20px;
+        }
+        #items {
+            margin: 20px auto;
+            max-width: 400px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
         }
         .item {
             margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
         .right-mark {
             color: green;
@@ -17,10 +36,13 @@
         .wrong-mark {
             color: red;
         }
+        .status-icon {
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
-    <h1>Bhada From transports</h1>
+    <h1>Bhada From Transports</h1>
     <div id="items">
         <!-- Items will be dynamically added here -->
     </div>
@@ -32,10 +54,11 @@
 
             var newItem = document.createElement("div");
             newItem.classList.add("item");
-            newItem.innerHTML = name + " - ";
+            newItem.innerHTML = '<span class="item-name">' + name + '</span>';
 
             var statusIcon = document.createElement("span");
             statusIcon.textContent = status ? "✔" : "❌";
+            statusIcon.classList.add("status-icon");
             statusIcon.classList.add(status ? "right-mark" : "wrong-mark");
 
             newItem.appendChild(statusIcon);

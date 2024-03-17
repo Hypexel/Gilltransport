@@ -35,14 +35,22 @@
             justify-content: space-between;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+        .item-info {
+            display: flex;
+            align-items: center;
+        }
         .item-name {
             font-size: 18px;
             color: #333;
             font-weight: bold;
         }
+        .amount-to-collect {
+            margin-right: 15px;
+            font-size: 16px;
+            color: #777;
+        }
         .status-icon {
             font-size: 24px;
-            margin-left: 15px;
         }
         .cash-received {
             color: #4CAF50;
@@ -138,12 +146,22 @@
 
     <script>
         // Function to add a new item
-        function addItem(name, cashReceived, index) {
+        function addItem(name, cashReceived, amount, index) {
             var itemsContainer = document.getElementById("items");
 
             var newItem = document.createElement("div");
             newItem.classList.add("item");
-            newItem.innerHTML = '<span class="item-name">' + name + '</span>';
+
+            var itemInfo = document.createElement("div");
+            itemInfo.classList.add("item-info");
+            
+            var itemName = document.createElement("span");
+            itemName.classList.add("item-name");
+            itemName.textContent = name;
+            
+            var amountToCollect = document.createElement("span");
+            amountToCollect.classList.add("amount-to-collect");
+            amountToCollect.textContent = "Amount to collect: " + (amount ? amount : "N/A");
 
             var statusIcon = document.createElement("span");
             statusIcon.textContent = cashReceived ? "✔" : "❌";
@@ -155,6 +173,9 @@
             updateBtn.classList.add("update-btn");
             updateBtn.dataset.index = index;
 
+            itemInfo.appendChild(itemName);
+            itemInfo.appendChild(amountToCollect);
+            newItem.appendChild(itemInfo);
             newItem.appendChild(statusIcon);
             newItem.appendChild(updateBtn);
             itemsContainer.appendChild(newItem);
@@ -166,21 +187,21 @@
 
         // Sample data (can be replaced with dynamic data from backend)
         var items = [
-            { name: "Truck 1971", cashReceived: true },
-            { name: "Truck 7271", cashReceived: false },
-            { name: "Truck 8871", cashReceived: true },
+            { name: "Truck 1971", cashReceived: true, amount: 100 },
+            { name: "Truck 7271", cashReceived: false, amount: 150 },
+            { name: "Truck 8871", cashReceived: true, amount: 200 },
             { name: "Truck 1234", cashReceived: false },
-            { name: "Truck 5678", cashReceived: true },
-            { name: "Truck 9012", cashReceived: false },
-            { name: "Truck 3456", cashReceived: true },
+            { name: "Truck 5678", cashReceived: true, amount: 250 },
+            { name: "Truck 9012", cashReceived: false, amount: 300 },
+            { name: "Truck 3456", cashReceived: true, amount: 350 },
             { name: "Truck 7890", cashReceived: false },
-            { name: "Truck 6543", cashReceived: true },
-            { name: "Truck 2109", cashReceived: false }
+            { name: "Truck 6543", cashReceived: true, amount: 400 },
+            { name: "Truck 2109", cashReceived: false, amount: 450 }
         ];
 
         // Display existing items
         items.forEach(function(item, index) {
-            addItem(item.name, item.cashReceived, index);
+            addItem(item.name, item.cashReceived, item.amount, index);
         });
 
         // Function to open update menu
@@ -215,7 +236,7 @@
             var itemsContainer = document.getElementById("items");
             itemsContainer.innerHTML = '';
             items.forEach(function(item, index) {
-                addItem(item.name, item.cashReceived, index);
+                addItem(item.name, item.cashReceived, item.amount, index);
             });
         }
 

@@ -85,6 +85,41 @@
         .add-btn:hover {
             background-color: #45a049;
         }
+        .update-menu {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            z-index: 1000;
+        }
+        .update-menu input[type="text"] {
+            width: calc(100% - 10px);
+            margin-bottom: 10px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .update-menu button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .update-menu button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -93,6 +128,13 @@
         <!-- Items will be dynamically added here -->
     </div>
     <button class="add-btn" id="addButton">Add</button>
+
+    <div id="updateMenu" class="update-menu">
+        <input type="text" id="amountInput" placeholder="Enter amount to be collected">
+        <label for="receivedCheckbox">Amount Received:</label>
+        <input type="checkbox" id="receivedCheckbox">
+        <button id="confirmUpdateBtn">Update</button>
+    </div>
 
     <script>
         // Function to add a new item
@@ -118,10 +160,7 @@
             itemsContainer.appendChild(newItem);
 
             updateBtn.addEventListener('click', function() {
-                var confirmation = confirm("Are you sure you want to update the status of item '" + name + "'?");
-                if (confirmation) {
-                    toggleCashReceived(this.dataset.index);
-                }
+                openUpdateMenu(index);
             });
         }
 
@@ -144,10 +183,31 @@
             addItem(item.name, item.cashReceived, index);
         });
 
-        // Function to toggle cash received status
-        function toggleCashReceived(index) {
-            items[index].cashReceived = !items[index].cashReceived;
-            updateItemList();
+        // Function to open update menu
+        function openUpdateMenu(index) {
+            var updateMenu = document.getElementById('updateMenu');
+            var confirmUpdateBtn = document.getElementById('confirmUpdateBtn');
+            var amountInput = document.getElementById('amountInput');
+            var receivedCheckbox = document.getElementById('receivedCheckbox');
+
+            amountInput.value = ''; // Clear input field
+            receivedCheckbox.checked = items[index].cashReceived; // Set checkbox state
+
+            updateMenu.style.display = 'block';
+
+            confirmUpdateBtn.onclick = function() {
+                var amount = amountInput.value.trim();
+                var received = receivedCheckbox.checked;
+
+                // Update item details
+                items[index].cashReceived = received;
+                if (amount) {
+                    items[index].amount = amount;
+                }
+
+                updateItemList();
+                updateMenu.style.display = 'none';
+            }
         }
 
         // Function to update item list after status change

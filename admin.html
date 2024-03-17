@@ -23,9 +23,9 @@
             var itemName = itemNameInput.value.trim();
 
             if (itemName !== "") {
-                // Code to send item data to backend can be added here
-                console.log("Added item: ", itemName);
-
+                // Add the new item to index.html
+                addItem(itemName, true); // Assuming newly added items are initially marked as correct
+                
                 // Clear input field after adding item
                 itemNameInput.value = "";
             }

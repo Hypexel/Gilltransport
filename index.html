@@ -11,6 +11,12 @@
             margin: 0;
             padding: 0;
             color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
         }
         h1 {
             text-align: center;
@@ -18,30 +24,29 @@
             margin-top: 30px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
-        #items {
-            margin: 20px auto;
-            max-width: 800px;
-        }
         .item {
             margin-bottom: 20px;
-            padding: 15px 20px;
+            padding: 20px;
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
         .item:hover {
             transform: translateY(-5px);
         }
         .item-info {
+            flex: 1;
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 10px;
+            flex-direction: column;
         }
         .item-name {
             font-size: 20px;
             font-weight: bold;
+            margin-bottom: 5px;
         }
         .amount-to-collect {
             font-size: 16px;
@@ -49,6 +54,7 @@
         }
         .status-icon {
             font-size: 24px;
+            margin-left: 20px;
         }
         .cash-received {
             color: #4CAF50;
@@ -60,7 +66,7 @@
             background-color: #4CAF50;
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 10px 20px;
             font-size: 14px;
             border-radius: 5px;
             cursor: pointer;
@@ -78,8 +84,10 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
-            float: right;
-            margin-top: -40px;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
         }
         .add-btn:hover {
             background-color: #2980b9;
@@ -126,17 +134,19 @@
     </style>
 </head>
 <body>
-    <h1>Bhada From Transports</h1>
-    <div id="items">
-        <!-- Items will be dynamically added here -->
-    </div>
-    <button class="add-btn" id="addButton">Add</button>
+    <div class="container">
+        <h1>Bhada From Transports</h1>
+        <div id="items">
+            <!-- Items will be dynamically added here -->
+        </div>
+        <button class="add-btn" id="addButton">Add New Item</button>
 
-    <div id="updateMenu" class="update-menu">
-        <input type="text" id="amountInput" placeholder="Enter amount to be collected">
-        <label for="receivedCheckbox">Amount Received:</label>
-        <input type="checkbox" id="receivedCheckbox">
-        <button id="confirmUpdateBtn">Update</button>
+        <div id="updateMenu" class="update-menu">
+            <input type="text" id="amountInput" placeholder="Enter amount to be collected">
+            <label for="receivedCheckbox">Amount Received:</label>
+            <input type="checkbox" id="receivedCheckbox">
+            <button id="confirmUpdateBtn">Update</button>
+        </div>
     </div>
 
     <script>

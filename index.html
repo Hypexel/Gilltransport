@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Items Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .item {
+            margin-bottom: 10px;
+        }
+        .right-mark {
+            color: green;
+        }
+        .wrong-mark {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Items Status</h1>
+    <div id="items">
+        <!-- Items will be dynamically added here -->
+    </div>
+
+    <script>
+        // Sample data (can be replaced with dynamic data from backend)
+        var items = [
+            { name: "Item 1", status: true },
+            { name: "Item 2", status: false },
+            { name: "Item 3", status: true }
+        ];
+
+        var itemsContainer = document.getElementById("items");
+
+        items.forEach(function(item) {
+            var newItem = document.createElement("div");
+            newItem.classList.add("item");
+            newItem.innerHTML = item.name + " - ";
+
+            var statusIcon = document.createElement("span");
+            statusIcon.textContent = item.status ? "✔" : "❌";
+            statusIcon.classList.add(item.status ? "right-mark" : "wrong-mark");
+
+            newItem.appendChild(statusIcon);
+            itemsContainer.appendChild(newItem);
+        });
+    </script>
+</body>
+</html>

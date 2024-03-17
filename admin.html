@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Items</title>
+</head>
+<body>
+    <h1>Add Items</h1>
+    <form id="addItemForm">
+        <label for="itemName">Item Name:</label>
+        <input type="text" id="itemName" name="itemName" required>
+        <button type="submit">Add Item</button>
+    </form>
+
+    <script>
+        var addItemForm = document.getElementById("addItemForm");
+
+        addItemForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            var itemNameInput = document.getElementById("itemName");
+            var itemName = itemNameInput.value.trim();
+
+            if (itemName !== "") {
+                // Code to send item data to backend can be added here
+                console.log("Added item: ", itemName);
+
+                // Clear input field after adding item
+                itemNameInput.value = "";
+            }
+        });
+    </script>
+</body>
+</html>

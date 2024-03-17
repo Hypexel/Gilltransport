@@ -66,8 +66,8 @@
         .update-btn:hover {
             background-color: #45a049;
         }
-        .delete-btn {
-            background-color: #FF5252;
+        .add-btn {
+            background-color: #4CAF50;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -78,9 +78,12 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
+            position: fixed;
+            top: 20px;
+            right: 20px;
         }
-        .delete-btn:hover {
-            background-color: #e53935;
+        .add-btn:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
@@ -89,6 +92,7 @@
     <div id="items">
         <!-- Items will be dynamically added here -->
     </div>
+    <button class="add-btn" id="addButton">Add</button>
 
     <script>
         // Function to add a new item
@@ -109,13 +113,8 @@
             updateBtn.classList.add("update-btn");
             updateBtn.dataset.index = index;
 
-            var deleteBtn = document.createElement("button");
-            deleteBtn.textContent = "Delete";
-            deleteBtn.classList.add("delete-btn");
-
             newItem.appendChild(statusIcon);
             newItem.appendChild(updateBtn);
-            newItem.appendChild(deleteBtn);
             itemsContainer.appendChild(newItem);
 
             updateBtn.addEventListener('click', function() {
@@ -156,6 +155,15 @@
                 addItem(item.name, item.cashReceived, index);
             });
         }
+
+        // Add button functionality
+        document.getElementById('addButton').addEventListener('click', function() {
+            var newItemName = prompt("Enter the name of the new item:");
+            if (newItemName) {
+                items.push({ name: newItemName, cashReceived: false });
+                updateItemList();
+            }
+        });
     </script>
 </body>
 </html>

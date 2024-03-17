@@ -26,6 +26,22 @@
     </div>
 
     <script>
+        // Function to add a new item
+        function addItem(name, status) {
+            var itemsContainer = document.getElementById("items");
+
+            var newItem = document.createElement("div");
+            newItem.classList.add("item");
+            newItem.innerHTML = name + " - ";
+
+            var statusIcon = document.createElement("span");
+            statusIcon.textContent = status ? "✔" : "❌";
+            statusIcon.classList.add(status ? "right-mark" : "wrong-mark");
+
+            newItem.appendChild(statusIcon);
+            itemsContainer.appendChild(newItem);
+        }
+
         // Sample data (can be replaced with dynamic data from backend)
         var items = [
             { name: "Item 1", status: true },
@@ -33,19 +49,9 @@
             { name: "Item 3", status: true }
         ];
 
-        var itemsContainer = document.getElementById("items");
-
+        // Display existing items
         items.forEach(function(item) {
-            var newItem = document.createElement("div");
-            newItem.classList.add("item");
-            newItem.innerHTML = item.name + " - ";
-
-            var statusIcon = document.createElement("span");
-            statusIcon.textContent = item.status ? "✔" : "❌";
-            statusIcon.classList.add(item.status ? "right-mark" : "wrong-mark");
-
-            newItem.appendChild(statusIcon);
-            itemsContainer.appendChild(newItem);
+            addItem(item.name, item.status);
         });
     </script>
 </body>

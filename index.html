@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bhada From Transports</title>
+    <title>Gill Transport</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -65,7 +65,7 @@
         .cash-pending {
             color: #FF5252;
         }
-        .update-btn {
+        .edit-btn {
             background-color: #4CAF50;
             color: white;
             border: none;
@@ -75,21 +75,8 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        .update-btn:hover {
+        .edit-btn:hover {
             background-color: #45a049;
-        }
-        .delete-btn {
-            background-color: #FF5252;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 14px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .delete-btn:hover {
-            background-color: #FF1744;
         }
         .search-container {
             margin-bottom: 20px;
@@ -238,12 +225,13 @@
 </head>
 <body>
     <div class="container">
-        <h1>Bhada From Transports</h1>
+        <h1>Gill Transport</h1>
 
         <!-- Search Container -->
         <div class="search-container">
             <input type="text" id="searchInput" onkeyup="searchItems()" placeholder="Search for item names...">
         </div>
+        <h2>&nbsp;&nbsp;Truck Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status </h2>
 
         <!-- Items List -->
         <div id="items">
@@ -251,13 +239,13 @@
         </div>
 
         <!-- Add Button -->
-        <button class="add-btn" id="addButton">Add New Item</button>
+        <button class="add-btn" id="addButton">Add New Information</button>
 
         <!-- Add Item Modal -->
         <div id="addItemModal" class="add-item-modal">
             <span class="close-btn" id="closeAddModalBtn">&times;</span>
-            <h2>Add New Item</h2>
-            <label for="itemNameInput">Item Name:</label>
+            <h2>Add New Information</h2>
+            <label for="itemNameInput">Truck Name:</label>
             <input type="text" id="itemNameInput" placeholder="Enter item name">
             <label for="amountInput">Amount to be Collected:</label>
             <input type="text" id="amountInput" placeholder="Enter amount">
@@ -265,25 +253,31 @@
             <input type="text" id="addressInput" placeholder="Enter address">
             <label for="phoneNumberInput">Phone Number:</label>
             <input type="text" id="phoneNumberInput" placeholder="Enter phone number">
-            <button id="addItemBtn">Add Item</button>
+            <button id="addItemBtn">Add Information</button>
         </div>
 
-        <!-- Update Menu -->
-        <div id="updateMenu" class="add-item-modal">
-            <span class="close-btn" id="closeUpdateMenuBtn">&times;</span>
-            <h2>Update Item</h2>
-            <label for="amountInput">Amount to be Collected:</label>
-            <input type="text" id="amountInput" placeholder="Enter amount">
-            <label for="receivedCheckbox">Amount Received:</label>
-            <input type="checkbox" id="receivedCheckbox">
-            <button id="confirmUpdateBtn">Update</button>
+        <!-- Edit Menu -->
+        <div id="editMenu" class="add-item-modal">
+            <span class="close-btn" id="closeEditMenuBtn">&times;</span>
+            <h2>Edit Item</h2>
+            <label for="editItemNameInput">Truck Name:</label>
+            <input type="text" id="editItemNameInput" placeholder="Enter item name">
+            <label for="editAmountInput">Amount to be Collected:</label>
+            <input type="text" id="editAmountInput" placeholder="Enter amount">
+            <label for="editAddressInput">Address:</label>
+            <input type="text" id="editAddressInput" placeholder="Enter address">
+            <label for="editPhoneNumberInput">Phone Number:</label>
+            <input type="text" id="editPhoneNumberInput" placeholder="Enter phone number">
+            <label for="editReceivedCheckbox">Amount Received:</label>
+            <input type="checkbox" id="editReceivedCheckbox">
+            <button id="confirmEditBtn">Save Changes</button>
         </div>
 
         <!-- Item Detail Modal -->
         <div id="itemDetailModal" class="item-detail-modal">
             <span class="close-btn" id="closeDetailModalBtn">&times;</span>
             <h2>Item Details</h2>
-            <label for="itemName">Item Name:</label>
+            <label for="itemName">Truck Name:</label>
             <input type="text" id="itemName" disabled>
             <label for="amountToCollect">Amount to be Collected:</label>
             <input type="text" id="amountToCollect" disabled>
@@ -292,13 +286,16 @@
             <label for="phoneNumber">Phone Number:</label>
             <input type="text" id="phoneNumber" disabled>
             <button id="editBtn">Edit</button>
-            <button id="closeModalBtn">Close</button>
         </div>
     </div>
 
     <script>
-        // Function to add a new item
-        function addItem(name, cashReceived, amount, address, phoneNumber, index) {
+        var items = [
+            { name: "Truck 1971", cashReceived: true, amount: 100, address: "123 Main St", phoneNumber: "555-1234" },
+            { name: "Truck 7271", cashReceived: false, amount: 150, address: "456 Elm St", phoneNumber: "555-5678" }
+        ];
+
+        function addItem(name, cashReceived, amount, address, phoneNumber) {
             var itemsContainer = document.getElementById("items");
 
             var newItem = document.createElement("div");
@@ -320,110 +317,27 @@
             statusIcon.classList.add("status-icon");
             statusIcon.classList.add(cashReceived ? "cash-received" : "cash-pending");
 
-            var updateBtn = document.createElement("button");
-            updateBtn.textContent = "Update";
-            updateBtn.classList.add("update-btn");
-            updateBtn.dataset.index = index;
-
             itemInfo.appendChild(itemName);
             itemInfo.appendChild(amountToCollect);
             newItem.appendChild(itemInfo);
             newItem.appendChild(statusIcon);
-            newItem.appendChild(updateBtn);
             itemsContainer.appendChild(newItem);
-
-            updateBtn.addEventListener('click', function(event) {
-                event.stopPropagation(); // Stop event propagation
-                openUpdateMenu(index);
-            });
 
             newItem.addEventListener('click', function() {
                 openItemDetailModal(name, amount, address, phoneNumber);
             });
         }
 
-        // Load items from local storage
         function loadItems() {
-            var savedItems = localStorage.getItem('items');
-            if (savedItems) {
-                items = JSON.parse(savedItems);
-                updateItemList();
-            }
+            var itemsContainer = document.getElementById("items");
+            itemsContainer.innerHTML = ''; // Clear existing items
+
+            items.forEach(function(item) {
+                addItem(item.name, item.cashReceived, item.amount, item.address, item.phoneNumber);
+            });
         }
 
-        // Save items to local storage
-        function saveItems() {
-            localStorage.setItem('items', JSON.stringify(items));
-        }
-
-        // Sample data (can be replaced with dynamic data from backend)
-        var items = [
-            { name: "Truck 1971", cashReceived: true, amount: 100, address: "123 Main St", phoneNumber: "555-1234" },
-            { name: "Truck 7271", cashReceived: false, amount: 150, address: "456 Elm St", phoneNumber: "555-5678" },
-            // Add more sample items here
-        ];
-
-        // Display existing items
         loadItems();
-
-        // Function to open update menu
-        function openUpdateMenu(index) {
-            var updateMenu = document.getElementById('updateMenu');
-            var confirmUpdateBtn = document.getElementById('confirmUpdateBtn');
-            var amountInput = document.getElementById('amountInput');
-            var receivedCheckbox = document.getElementById('receivedCheckbox');
-
-            amountInput.value = items[index].amount || ''; // Populate amount input
-            receivedCheckbox.checked = items[index].cashReceived; // Set checkbox state
-
-            updateMenu.style.display = 'block';
-
-            confirmUpdateBtn.onclick = function() {
-                var amount = amountInput.value.trim();
-                var received = receivedCheckbox.checked;
-
-                // Update item details
-                items[index].cashReceived = received;
-                items[index].amount = amount;
-
-                saveItems(); // Save items to local storage
-                updateItemList();
-                updateMenu.style.display = 'none';
-            }
-        }
-
-        // Function to open add item modal
-        function openAddItemModal() {
-            var addItemModal = document.getElementById('addItemModal');
-            var addItemBtn = document.getElementById('addItemBtn');
-            var itemNameInput = document.getElementById('itemNameInput');
-            var amountInput = document.getElementById('amountInput');
-            var addressInput = document.getElementById('addressInput');
-            var phoneNumberInput = document.getElementById('phoneNumberInput');
-
-            itemNameInput.value = ''; // Clear input fields
-            amountInput.value = '';
-            addressInput.value = '';
-            phoneNumberInput.value = '';
-
-            addItemModal.style.display = 'block';
-
-            addItemBtn.onclick = function() {
-                var name = itemNameInput.value.trim();
-                var amount = amountInput.value.trim();
-                var address = addressInput.value.trim();
-                var phoneNumber = phoneNumberInput.value.trim();
-
-                if (name !== '') {
-                    items.push({ name: name, cashReceived: false, amount: amount, address: address, phoneNumber: phoneNumber });
-                    saveItems(); // Save items to local storage
-                    updateItemList();
-                    addItemModal.style.display = 'none';
-                } else {
-                    alert('Please enter item name.');
-                }
-            }
-        }
 
         // Function to open item detail modal
         function openItemDetailModal(name, amount, address, phoneNumber) {
@@ -433,69 +347,94 @@
             var addressInput = document.getElementById('address');
             var phoneNumberInput = document.getElementById('phoneNumber');
             var editBtn = document.getElementById('editBtn');
-            var closeModalBtn = document.getElementById('closeModalBtn');
 
             itemNameInput.value = name;
-            amountToCollectInput.value = amount ? amount : 'N/A';
+            amountToCollectInput.value = amount ? amount : "N/A";
             addressInput.value = address;
             phoneNumberInput.value = phoneNumber;
 
             modal.style.display = 'block';
 
             editBtn.onclick = function() {
-                openUpdateMenu(items.findIndex(item => item.name === name));
                 modal.style.display = 'none';
-            }
+                openEditMenu(items.findIndex(item => item.name === name), name, amount, address, phoneNumber);
+            };
 
+            var closeModalBtn = document.getElementById('closeDetailModalBtn');
             closeModalBtn.onclick = function() {
                 modal.style.display = 'none';
             }
+        }
 
-            window.onclick = function(event) {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
+        // Function to open edit menu
+        function openEditMenu(index, name, amount, address, phoneNumber) {
+            var editMenu = document.getElementById('editMenu');
+            var confirmEditBtn = document.getElementById('confirmEditBtn');
+            var editItemNameInput = document.getElementById('editItemNameInput');
+            var editAmountInput = document.getElementById('editAmountInput');
+            var editAddressInput = document.getElementById('editAddressInput');
+            var editPhoneNumberInput = document.getElementById('editPhoneNumberInput');
+            var editReceivedCheckbox = document.getElementById('editReceivedCheckbox');
+
+            editItemNameInput.value = name || ''; // Populate item name input
+            editAmountInput.value = amount || ''; // Populate amount input
+            editAddressInput.value = address || ''; // Populate address input
+            editPhoneNumberInput.value = phoneNumber || ''; // Populate phone number input
+            editReceivedCheckbox.checked = items[index].cashReceived; // Set checkbox state
+
+            editMenu.style.display = 'block';
+
+            confirmEditBtn.onclick = function() {
+                var newName = editItemNameInput.value.trim();
+                var newAmount = editAmountInput.value.trim();
+                var newAddress = editAddressInput.value.trim();
+                var newPhoneNumber = editPhoneNumberInput.value.trim();
+                var received = editReceivedCheckbox.checked;
+
+                // Update item details
+                items[index].name = newName;
+                items[index].cashReceived = received;
+                items[index].amount = newAmount;
+                items[index].address = newAddress;
+                items[index].phoneNumber = newPhoneNumber;
+
+                loadItems(); // Reload items to reflect changes
+                editMenu.style.display = 'none';
             }
         }
 
-        // Close modals
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
+        // Event listener for Add New Item button
+        document.getElementById('addButton').addEventListener('click', function() {
+            openAddItemModal();
+        });
 
-        // Update items list
-        function updateItemList() {
-            var itemsContainer = document.getElementById('items');
-            itemsContainer.innerHTML = ''; // Clear items container
-            items.forEach(function(item, index) {
-                addItem(item.name, item.cashReceived, item.amount, item.address, item.phoneNumber, index);
-            });
-        }
+        // Close Add Item Modal
+        document.getElementById('closeAddModalBtn').addEventListener('click', function() {
+            document.getElementById('addItemModal').style.display = 'none';
+        });
 
-        // Search functionality
+        // Close Edit Menu
+        document.getElementById('closeEditMenuBtn').addEventListener('click', function() {
+            document.getElementById('editMenu').style.display = 'none';
+        });
+
+        // Function to search items
         function searchItems() {
-            var input, filter, itemsContainer, items, itemName, i, txtValue;
+            var input, filter, items, item, itemName, i, txtValue;
             input = document.getElementById("searchInput");
             filter = input.value.toUpperCase();
-            itemsContainer = document.getElementById("items");
-            items = itemsContainer.getElementsByClassName("item");
-
-            for (i = 0; i < items.length; i++) {
-                itemName = items[i].getElementsByClassName("item-name")[0];
+            items = document.getElementById("items");
+            item = items.getElementsByClassName("item");
+            for (i = 0; i < item.length; i++) {
+                itemName = item[i].getElementsByClassName("item-name")[0];
                 txtValue = itemName.textContent || itemName.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    items[i].style.display = "";
+                    item[i].style.display = "";
                 } else {
-                    items[i].style.display = "none";
+                    item[i].style.display = "none";
                 }
             }
         }
-
-        // Event Listeners
-        document.getElementById('addButton').addEventListener('click', openAddItemModal);
-        document.getElementById('closeAddModalBtn').addEventListener('click', function() { closeModal('addItemModal'); });
-        document.getElementById('closeUpdateMenuBtn').addEventListener('click', function() { closeModal('updateMenu'); });
-        document.getElementById('closeDetailModalBtn').addEventListener('click', function() { closeModal('itemDetailModal'); });
     </script>
 </body>
 </html>

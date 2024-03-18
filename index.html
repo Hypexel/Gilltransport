@@ -78,6 +78,32 @@
         .update-btn:hover {
             background-color: #45a049;
         }
+        .delete-btn {
+            background-color: #FF5252;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .delete-btn:hover {
+            background-color: #FF1744;
+        }
+        .search-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .search-container input[type=text] {
+            width: 50%;
+            padding: 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+        }
         .add-btn {
             background-color: #3498db;
             color: white;
@@ -89,9 +115,7 @@
             transition: background-color 0.3s;
             z-index: 1000;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            top: 20px;
-            right: 20px;
+            margin-right: 10px;
         }
         .add-btn:hover {
             background-color: #2980b9;
@@ -146,11 +170,21 @@
 <body>
     <div class="container">
         <h1>Bhada From Transports</h1>
+
+        <!-- Search Container -->
+        <div class="search-container">
+            <input type="text" id="searchInput" onkeyup="searchItems()" placeholder="Search for item names...">
+        </div>
+
+        <!-- Items List -->
         <div id="items">
             <!-- Items will be dynamically added here -->
         </div>
+
+        <!-- Add Button -->
         <button class="add-btn" id="addButton">Add New Item</button>
 
+        <!-- Add Item Modal -->
         <div id="updateMenu" class="add-item-modal">
             <h2>Update Item</h2>
             <label for="amountInput">Amount to be Collected:</label>
@@ -160,6 +194,7 @@
             <button id="confirmUpdateBtn">Update</button>
         </div>
 
+        <!-- Item Detail Modal -->
         <div id="itemDetailModal" class="add-item-modal">
             <h2>Item Details</h2>
             <label for="itemName">Item Name:</label>
@@ -203,15 +238,26 @@
             updateBtn.classList.add("update-btn");
             updateBtn.dataset.index = index;
 
+            var deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "Delete";
+            deleteBtn.classList.add("delete-btn");
+            deleteBtn.dataset.index = index;
+
             itemInfo.appendChild(itemName);
             itemInfo.appendChild(amountToCollect);
             newItem.appendChild(itemInfo);
             newItem.appendChild(statusIcon);
             newItem.appendChild(updateBtn);
+            newItem.appendChild(deleteBtn);
             itemsContainer.appendChild(newItem);
 
-            updateBtn.addEventListener('click', function() {
+            updateBtn.addEventListener('click', function(event) {
+                event.stopPropagation(); // Stop event propagation
                 openUpdateMenu(index);
+            });
+
+            deleteBtn.addEventListener('click', function() {
+                deleteItem(index);
             });
 
             newItem.addEventListener('click', function() {
@@ -290,18 +336,14 @@
             }
         }
 
-        // Add button functionality
-        document.getElementById('addButton').addEventListener('click', function() {
-            var newItemName = prompt("Enter the name of the new item:");
-            if (newItemName) {
-                var amountToCollect = prompt("Enter the amount to be collected:");
-                var address = prompt("Enter the address:");
-                var phoneNumber = prompt("Enter the phone number:");
-                items.push({ name: newItemName, cashReceived: false, amount: amountToCollect, address: address, phoneNumber: phoneNumber });
+        // Function to delete item
+        function deleteItem(index) {
+            if (confirm("Are you sure you want to delete this item?")) {
+                items.splice(index, 1);
                 saveItems(); // Save items to local storage
                 updateItemList();
             }
-        });
+        }
 
         // Function to update item list after status change
         function updateItemList() {
@@ -310,6 +352,24 @@
             items.forEach(function(item, index) {
                 addItem(item.name, item.cashReceived, item.amount, item.address, item.phoneNumber, index);
             });
+        }
+
+        // Function to search items
+        function searchItems() {
+            var input, filter, itemsContainer, items, item, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            itemsContainer = document.getElementById("items");
+            items = itemsContainer.getElementsByClassName("item");
+            for (i = 0; i < items.length; i++) {
+                item = items[i].getElementsByClassName("item-name")[0];
+                txtValue = item.textContent || item.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    items[i].style.display = "";
+                } else {
+                    items[i].style.display = "none";
+                }
+            }
         }
     </script>
 </body>

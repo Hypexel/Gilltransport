@@ -110,7 +110,7 @@
         .add-btn:hover {
             background-color: #2980b9;
         }
-        .add-item-modal {
+        .add-item-modal, .edit-menu, .delete-modal, .item-detail-modal {
             display: none;
             position: fixed;
             top: 50%;
@@ -124,19 +124,21 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
             max-width: 400px;
             width: 80%;
+            overflow-y: auto;
+            max-height: 80%;
         }
-        .add-item-modal h2 {
+        .add-item-modal h2, .edit-menu h2, .delete-modal h2, .item-detail-modal h2 {
             margin-top: 0;
             text-align: center;
             color: #eee;
         }
-        .add-item-modal label {
+        .add-item-modal label, .edit-menu label, .delete-modal label, .item-detail-modal label {
             display: block;
             margin-bottom: 10px;
             font-size: 16px;
             color: #eee;
         }
-        .add-item-modal input[type="text"] {
+        .add-item-modal input[type="text"], .edit-menu input[type="text"], .delete-modal input[type="text"], .item-detail-modal input[type="text"] {
             width: calc(100% - 22px);
             padding: 8px;
             margin-bottom: 20px;
@@ -147,7 +149,7 @@
             background-color: #666;
             color: #eee;
         }
-        .add-item-modal button {
+        .add-item-modal button, .edit-menu button, .delete-modal button, .item-detail-modal button {
             background-color: #4CAF50;
             color: white;
             border: none;
@@ -159,59 +161,7 @@
             display: block;
             margin: 0 auto;
         }
-        .add-item-modal button:hover {
-            background-color: #45a049;
-        }
-        .item-detail-modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #444;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 20px;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-            max-width: 400px;
-            width: 80%;
-        }
-        .item-detail-modal h2 {
-            margin-top: 0;
-            text-align: center;
-            color: #eee;
-        }
-        .item-detail-modal label {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 16px;
-            color: #eee;
-        }
-        .item-detail-modal input[type="text"] {
-            width: calc(100% - 22px);
-            padding: 8px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            outline: none;
-            margin-left: 10px;
-            background-color: #666;
-            color: #eee;
-        }
-        .item-detail-modal button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            display: block;
-            margin: 0 auto;
-        }
-        .item-detail-modal button:hover {
+        .add-item-modal button:hover, .edit-menu button:hover, .delete-modal button:hover, .item-detail-modal button:hover {
             background-color: #45a049;
         }
         .close-btn {
@@ -221,60 +171,6 @@
             font-size: 20px;
             color: #eee;
             cursor: pointer;
-        }
-        
-        /* Delete Modal */
-        .delete-modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #444;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 20px;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-            max-width: 400px;
-            width: 80%;
-        }
-        .delete-modal h2 {
-            margin-top: 0;
-            text-align: center;
-            color: #eee;
-        }
-        .delete-modal label {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 16px;
-            color: #eee;
-        }
-        .delete-modal select {
-            width: calc(100% - 22px);
-            padding: 8px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            outline: none;
-            margin-left: 10px;
-            background-color: #666;
-            color: #eee;
-        }
-        .delete-modal button {
-            background-color: #FF5252;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            display: block;
-            margin: 0 auto;
-        }
-        .delete-modal button:hover {
-            background-color: #EF5350;
         }
     </style>
 </head>
@@ -300,11 +196,11 @@
         <button class="add-btn" id="deleteButton">Delete Information</button>
 
         <!-- Add Item Modal -->
-        <div id="addItemModal" class="add-item-modal">
+        <div class="add-item-modal" id="addItemModal">
             <span class="close-btn" id="closeAddModalBtn">&times;</span>
             <h2>Add New Information</h2>
             <label for="itemNameInput">Truck Name:</label>
-            <input type="text" id="itemNameInput" placeholder="Enter truck name">
+            <input type="text" id="itemNameInput" placeholder="Enter item name">
             <label for="amountInput">Amount to be Collected:</label>
             <input type="text" id="amountInput" placeholder="Enter amount">
             <label for="addressInput">Address:</label>
@@ -329,11 +225,11 @@
         </div>
 
         <!-- Edit Menu -->
-        <div id="editMenu" class="add-item-modal">
+        <div class="add-item-modal" id="editMenu">
             <span class="close-btn" id="closeEditMenuBtn">&times;</span>
             <h2>Edit Item</h2>
             <label for="editItemNameInput">Truck Name:</label>
-            <input type="text" id="editItemNameInput" placeholder="Enter truck name">
+            <input type="text" id="editItemNameInput" placeholder="Enter item name">
             <label for="editAmountInput">Amount to be Collected:</label>
             <input type="text" id="editAmountInput" placeholder="Enter amount">
             <label for="editAddressInput">Address:</label>
@@ -360,7 +256,7 @@
         </div>
 
         <!-- Item Detail Modal -->
-        <div id="itemDetailModal" class="item-detail-modal">
+        <div class="item-detail-modal" id="itemDetailModal">
             <span class="close-btn" id="closeDetailModalBtn">&times;</span>
             <h2>Item Details</h2>
             <label for="itemName">Truck Name:</label>
@@ -389,7 +285,7 @@
         </div>
 
         <!-- Delete Modal -->
-        <div id="deleteModal" class="delete-modal">
+        <div class="delete-modal" id="deleteModal">
             <span class="close-btn" id="closeDeleteModalBtn">&times;</span>
             <h2>Delete Information</h2>
             <label for="deleteItemSelect">Select Truck Information:</label>
@@ -405,7 +301,16 @@
             localStorage.setItem('items', JSON.stringify(items));
         }
 
-        function addItem(name, cashReceived, amount, address, phoneNumber, fromWhere, toWhere, weight, partyName, kilometers, startDate, endDate) {
+        function displayItems() {
+            var itemsContainer = document.getElementById("items");
+            itemsContainer.innerHTML = '';
+
+            items.forEach(function(item) {
+                addItem(item);
+            });
+        }
+
+        function addItem(item) {
             var itemsContainer = document.getElementById("items");
 
             var newItem = document.createElement("div");
@@ -416,253 +321,79 @@
             
             var itemName = document.createElement("span");
             itemName.classList.add("item-name");
-            itemName.textContent = name;
+            itemName.textContent = item.name;
             
             var amountToCollect = document.createElement("span");
             amountToCollect.classList.add("amount-to-collect");
-            amountToCollect.textContent = "Amount to be collected: " + (amount ? amount : "N/A");
+            amountToCollect.textContent = "Amount to be collected: " + (item.amount ? item.amount : "N/A");
 
             var statusIcon = document.createElement("span");
-            statusIcon.textContent = cashReceived ? "✔" : "❌";
+            statusIcon.textContent = item.cashReceived ? "✓" : "✗";
             statusIcon.classList.add("status-icon");
-            statusIcon.classList.add(cashReceived ? "cash-received" : "cash-pending");
+            if (item.cashReceived) {
+                statusIcon.classList.add("cash-received");
+            } else {
+                statusIcon.classList.add("cash-pending");
+            }
 
             itemInfo.appendChild(itemName);
             itemInfo.appendChild(amountToCollect);
+
             newItem.appendChild(itemInfo);
             newItem.appendChild(statusIcon);
-            itemsContainer.appendChild(newItem);
 
             newItem.addEventListener('click', function() {
-                openItemDetailModal(name, amount, address, phoneNumber, fromWhere, toWhere, weight, partyName, kilometers, startDate, endDate);
+                showItemDetail(item);
             });
+
+            itemsContainer.appendChild(newItem);
         }
 
-        function loadItems() {
-            var itemsContainer = document.getElementById("items");
-            itemsContainer.innerHTML = '';
+        function showItemDetail(item) {
+            var modal = document.getElementById("itemDetailModal");
+            var closeModalBtn = document.getElementById("closeDetailModalBtn");
+            var editBtn = document.getElementById("editBtn");
 
-            items.forEach(function(item) {
-                addItem(item.name, item.cashReceived, item.amount, item.address, item.phoneNumber, item.fromWhere, item.toWhere, item.weight, item.partyName, item.kilometers, item.startDate, item.endDate);
-            });
-        }
+            document.getElementById("itemName").value = item.name;
+            document.getElementById("amountToCollect").value = item.amount ? item.amount : "N/A";
+            document.getElementById("address").value = item.address ? item.address : "N/A";
+            document.getElementById("phoneNumber").value = item.phoneNumber ? item.phoneNumber : "N/A";
+            document.getElementById("fromWhere").value = item.fromWhere ? item.fromWhere : "N/A";
+            document.getElementById("toWhere").value = item.toWhere ? item.toWhere : "N/A";
+            document.getElementById("weight").value = item.weight ? item.weight : "N/A";
+            document.getElementById("partyName").value = item.partyName ? item.partyName : "N/A";
+            document.getElementById("kilometers").value = item.kilometers ? item.kilometers : "N/A";
+            document.getElementById("startDate").value = item.startDate ? item.startDate : "N/A";
+            document.getElementById("endDate").value = item.endDate ? item.endDate : "N/A";
 
-        loadItems();
+            if (item.cashReceived) {
+                editBtn.style.display = 'none';
+            } else {
+                editBtn.style.display = 'block';
+            }
 
-        function openItemDetailModal(name, amount, address, phoneNumber, fromWhere, toWhere, weight, partyName, kilometers, startDate, endDate) {
-            var modal = document.getElementById('itemDetailModal');
-            var itemNameInput = document.getElementById('itemName');
-            var amountToCollectInput = document.getElementById('amountToCollect');
-            var addressInput = document.getElementById('address');
-            var phoneNumberInput = document.getElementById('phoneNumber');
-            var fromWhereInput = document.getElementById('fromWhere');
-            var toWhereInput = document.getElementById('toWhere');
-            var weightInput = document.getElementById('weight');
-            var partyNameInput = document.getElementById('partyName');
-            var kilometersInput = document.getElementById('kilometers');
-            var startDateInput = document.getElementById('startDate');
-            var endDateInput = document.getElementById('endDate');
-            var editBtn = document.getElementById('editBtn');
-
-            itemNameInput.value = name;
-            amountToCollectInput.value = amount ? amount : "N/A";
-            addressInput.value = address;
-            phoneNumberInput.value = phoneNumber;
-            fromWhereInput.value = fromWhere ? fromWhere : "N/A";
-            toWhereInput.value = toWhere ? toWhere : "N/A";
-            weightInput.value = weight ? weight : "N/A";
-            partyNameInput.value = partyName ? partyName : "N/A";
-            kilometersInput.value = kilometers ? kilometers : "N/A";
-            startDateInput.value = startDate ? startDate : "N/A";
-            endDateInput.value = endDate ? endDate : "N/A";
-
-            modal.style.display = 'block';
-
-            editBtn.onclick = function() {
-                modal.style.display = 'none';
-                openEditMenu(items.findIndex(item => item.name === name), name, amount, address, phoneNumber, fromWhere, toWhere, weight, partyName, kilometers, startDate, endDate);
-            };
-
-            var closeModalBtn = document.getElementById('closeDetailModalBtn');
             closeModalBtn.onclick = function() {
-                modal.style.display = 'none';
+                modal.style.display = "none";
             }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            modal.style.display = "block";
         }
-
-        function openEditMenu(index, name, amount, address, phoneNumber, fromWhere, toWhere, weight, partyName, kilometers, startDate, endDate) {
-            var editMenu = document.getElementById('editMenu');
-            var confirmEditBtn = document.getElementById('confirmEditBtn');
-            var editItemNameInput = document.getElementById('editItemNameInput');
-            var editAmountInput = document.getElementById('editAmountInput');
-            var editAddressInput = document.getElementById('editAddressInput');
-            var editPhoneNumberInput = document.getElementById('editPhoneNumberInput');
-            var editFromWhereInput = document.getElementById('editFromWhereInput');
-            var editToWhereInput = document.getElementById('editToWhereInput');
-            var editWeightInput = document.getElementById('editWeightInput');
-            var editPartyNameInput = document.getElementById('editPartyNameInput');
-            var editKilometersInput = document.getElementById('editKilometersInput');
-            var editStartDateInput = document.getElementById('editStartDateInput');
-            var editEndDateInput = document.getElementById('editEndDateInput');
-            var editReceivedCheckbox = document.getElementById('editReceivedCheckbox');
-
-            editItemNameInput.value = name || '';
-            editAmountInput.value = amount || '';
-            editAddressInput.value = address || '';
-            editPhoneNumberInput.value = phoneNumber || '';
-            editFromWhereInput.value = fromWhere || '';
-            editToWhereInput.value = toWhere || '';
-            editWeightInput.value = weight || '';
-            editPartyNameInput.value = partyName || '';
-            editKilometersInput.value = kilometers || '';
-            editStartDateInput.value = startDate || '';
-            editEndDateInput.value = endDate || '';
-            editReceivedCheckbox.checked = items[index].cashReceived;
-
-            editMenu.style.display = 'block';
-
-            confirmEditBtn.onclick = function() {
-                items[index].name = editItemNameInput.value;
-                items[index].amount = editAmountInput.value;
-                items[index].address = editAddressInput.value;
-                items[index].phoneNumber = editPhoneNumberInput.value;
-                items[index].fromWhere = editFromWhereInput.value;
-                items[index].toWhere = editToWhereInput.value;
-                items[index].weight = editWeightInput.value;
-                items[index].partyName = editPartyNameInput.value;
-                items[index].kilometers = editKilometersInput.value;
-                items[index].startDate = editStartDateInput.value;
-                items[index].endDate = editEndDateInput.value;
-                items[index].cashReceived = editReceivedCheckbox.checked;
-
-                saveItems();
-                editMenu.style.display = 'none';
-                loadItems();
-            };
-
-            var closeEditMenuBtn = document.getElementById('closeEditMenuBtn');
-            closeEditMenuBtn.onclick = function() {
-                editMenu.style.display = 'none';
-            };
-        }
-
-        var addItemBtn = document.getElementById('addItemBtn');
-        addItemBtn.onclick = function() {
-            var itemNameInput = document.getElementById('itemNameInput');
-            var amountInput = document.getElementById('amountInput');
-            var addressInput = document.getElementById('addressInput');
-            var phoneNumberInput = document.getElementById('phoneNumberInput');
-            var fromWhereInput = document.getElementById('fromWhereInput');
-            var toWhereInput = document.getElementById('toWhereInput');
-            var weightInput = document.getElementById('weightInput');
-            var partyNameInput = document.getElementById('partyNameInput');
-            var kilometersInput = document.getElementById('kilometersInput');
-            var startDateInput = document.getElementById('startDateInput');
-            var endDateInput = document.getElementById('endDateInput');
-
-            var name = itemNameInput.value.trim();
-            var amount = amountInput.value.trim();
-            var address = addressInput.value.trim();
-            var phoneNumber = phoneNumberInput.value.trim();
-            var fromWhere = fromWhereInput.value.trim();
-            var toWhere = toWhereInput.value.trim();
-            var weight = weightInput.value.trim();
-            var partyName = partyNameInput.value.trim();
-            var kilometers = kilometersInput.value.trim();
-            var startDate = startDateInput.value.trim();
-            var endDate = endDateInput.value.trim();
-
-            if (name === '' || address === '') {
-                alert('Please fill out all required fields.');
-                return;
-            }
-
-            addItem(name, false, amount, address, phoneNumber, fromWhere, toWhere, weight, partyName, kilometers, startDate, endDate);
-            items.push({
-                name: name,
-                amount: amount,
-                address: address,
-                phoneNumber: phoneNumber,
-                fromWhere: fromWhere,
-                toWhere: toWhere,
-                weight: weight,
-                partyName: partyName,
-                kilometers: kilometers,
-                startDate: startDate,
-                endDate: endDate,
-                cashReceived: false
-            });
-            saveItems();
-            itemNameInput.value = '';
-            amountInput.value = '';
-            addressInput.value = '';
-            phoneNumberInput.value = '';
-            fromWhereInput.value = '';
-            toWhereInput.value = '';
-            weightInput.value = '';
-            partyNameInput.value = '';
-            kilometersInput.value = '';
-            startDateInput.value = '';
-            endDateInput.value = '';
-        };
-
-        var addModalBtn = document.getElementById('addButton');
-        var addItemModal = document.getElementById('addItemModal');
-        addModalBtn.onclick = function() {
-            addItemModal.style.display = 'block';
-        };
-
-        var closeAddModalBtn = document.getElementById('closeAddModalBtn');
-        closeAddModalBtn.onclick = function() {
-            addItemModal.style.display = 'none';
-        };
-
-        var deleteModal = document.getElementById('deleteModal');
-        var deleteButton = document.getElementById('deleteButton');
-        deleteButton.onclick = function() {
-            var deleteItemSelect = document.getElementById('deleteItemSelect');
-            deleteItemSelect.innerHTML = '';
-
-            items.forEach(function(item, index) {
-                var option = document.createElement('option');
-                option.value = index;
-                option.textContent = item.name;
-                deleteItemSelect.appendChild(option);
-            });
-
-            deleteModal.style.display = 'block';
-        };
-
-        var closeDeleteModalBtn = document.getElementById('closeDeleteModalBtn');
-        closeDeleteModalBtn.onclick = function() {
-            deleteModal.style.display = 'none';
-        };
-
-        var deleteItemBtn = document.getElementById('deleteItemBtn');
-        deleteItemBtn.onclick = function() {
-            var deleteItemSelect = document.getElementById('deleteItemSelect');
-            var selectedIndex = deleteItemSelect.value;
-
-            items.splice(selectedIndex, 1);
-            saveItems();
-            deleteModal.style.display = 'none';
-            loadItems();
-        };
-
-        window.onclick = function(event) {
-            if (event.target == deleteModal) {
-                deleteModal.style.display = 'none';
-            }
-        };
 
         function searchItems() {
-            var input, filter, itemsContainer, items, item, i, txtValue;
-            input = document.getElementById("searchInput");
-            filter = input.value.toUpperCase();
-            itemsContainer = document.getElementById("items");
-            items = itemsContainer.getElementsByClassName("item");
-            for (i = 0; i < items.length; i++) {
-                item = items[i].getElementsByClassName("item-name")[0];
-                txtValue = item.textContent || item.innerText;
+            var input = document.getElementById("searchInput");
+            var filter = input.value.toUpperCase();
+            var itemsContainer = document.getElementById("items");
+            var items = itemsContainer.getElementsByClassName("item");
+
+            for (var i = 0; i < items.length; i++) {
+                var itemName = items[i].getElementsByClassName("item-name")[0];
+                var txtValue = itemName.textContent || itemName.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
                     items[i].style.display = "";
                 } else {
@@ -670,6 +401,151 @@
                 }
             }
         }
+
+        function openAddModal() {
+            var modal = document.getElementById("addItemModal");
+            var closeModalBtn = document.getElementById("closeAddModalBtn");
+            var addItemBtn = document.getElementById("addItemBtn");
+
+            closeModalBtn.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            addItemBtn.onclick = function() {
+                var itemName = document.getElementById("itemNameInput").value;
+                var amount = document.getElementById("amountInput").value;
+                var address = document.getElementById("addressInput").value;
+                var phoneNumber = document.getElementById("phoneNumberInput").value;
+                var fromWhere = document.getElementById("fromWhereInput").value;
+                var toWhere = document.getElementById("toWhereInput").value;
+                var weight = document.getElementById("weightInput").value;
+                var partyName = document.getElementById("partyNameInput").value;
+                var kilometers = document.getElementById("kilometersInput").value;
+                var startDate = document.getElementById("startDateInput").value;
+                var endDate = document.getElementById("endDateInput").value;
+
+                var newItem = {
+                    name: itemName,
+                    amount: amount,
+                    address: address,
+                    phoneNumber: phoneNumber,
+                    fromWhere: fromWhere,
+                    toWhere: toWhere,
+                    weight: weight,
+                    partyName: partyName,
+                    kilometers: kilometers,
+                    startDate: startDate,
+                    endDate: endDate,
+                    cashReceived: false
+                };
+
+                items.push(newItem);
+                saveItems();
+                addItem(newItem);
+                modal.style.display = "none";
+            }
+
+            modal.style.display = "block";
+        }
+
+        function openEditMenu(itemIndex) {
+            var modal = document.getElementById("editMenu");
+            var closeModalBtn = document.getElementById("closeEditMenuBtn");
+            var confirmEditBtn = document.getElementById("confirmEditBtn");
+
+            var item = items[itemIndex];
+
+            document.getElementById("editItemNameInput").value = item.name;
+            document.getElementById("editAmountInput").value = item.amount ? item.amount : "";
+            document.getElementById("editAddressInput").value = item.address ? item.address : "";
+            document.getElementById("editPhoneNumberInput").value = item.phoneNumber ? item.phoneNumber : "";
+            document.getElementById("editFromWhereInput").value = item.fromWhere ? item.fromWhere : "";
+            document.getElementById("editToWhereInput").value = item.toWhere ? item.toWhere : "";
+            document.getElementById("editWeightInput").value = item.weight ? item.weight : "";
+            document.getElementById("editPartyNameInput").value = item.partyName ? item.partyName : "";
+            document.getElementById("editKilometersInput").value = item.kilometers ? item.kilometers : "";
+            document.getElementById("editStartDateInput").value = item.startDate ? item.startDate : "";
+            document.getElementById("editEndDateInput").value = item.endDate ? item.endDate : "";
+            document.getElementById("editReceivedCheckbox").checked = item.cashReceived;
+
+            closeModalBtn.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            confirmEditBtn.onclick = function() {
+                item.name = document.getElementById("editItemNameInput").value;
+                item.amount = document.getElementById("editAmountInput").value;
+                item.address = document.getElementById("editAddressInput").value;
+                item.phoneNumber = document.getElementById("editPhoneNumberInput").value;
+                item.fromWhere = document.getElementById("editFromWhereInput").value;
+                item.toWhere = document.getElementById("editToWhereInput").value;
+                item.weight = document.getElementById("editWeightInput").value;
+                item.partyName = document.getElementById("editPartyNameInput").value;
+                item.kilometers = document.getElementById("editKilometersInput").value;
+                item.startDate = document.getElementById("editStartDateInput").value;
+                item.endDate = document.getElementById("editEndDateInput").value;
+                item.cashReceived = document.getElementById("editReceivedCheckbox").checked;
+
+                saveItems();
+                displayItems();
+                modal.style.display = "none";
+            }
+
+            modal.style.display = "block";
+        }
+
+        function openDeleteModal() {
+            var modal = document.getElementById("deleteModal");
+            var closeModalBtn = document.getElementById("closeDeleteModalBtn");
+            var deleteItemBtn = document.getElementById("deleteItemBtn");
+            var deleteItemSelect = document.getElementById("deleteItemSelect");
+
+            deleteItemSelect.innerHTML = '';
+
+            items.forEach(function(item, index) {
+                var option = document.createElement("option");
+                option.value = index;
+                option.textContent = item.name;
+                deleteItemSelect.appendChild(option);
+            });
+
+            closeModalBtn.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            deleteItemBtn.onclick = function() {
+                var selectedIndex = deleteItemSelect.value;
+                items.splice(selectedIndex, 1);
+                saveItems();
+                displayItems();
+                modal.style.display = "none";
+            }
+
+            modal.style.display = "block";
+        }
+
+        // Initialize
+        displayItems();
+        document.getElementById("addButton").addEventListener("click", openAddModal);
+        document.getElementById("deleteButton").addEventListener("click", openDeleteModal);
     </script>
 </body>
 </html>

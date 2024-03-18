@@ -229,7 +229,7 @@
 
         <!-- Search Container -->
         <div class="search-container">
-            <input type="text" id="searchInput" onkeyup="searchItems()" placeholder="Search for item names...">
+            <input type="text" id="searchInput" onkeyup="searchItems()" placeholder="Search for Truck Name">
         </div>
         <h2>&nbsp;&nbsp;Truck Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status </h2>
 
@@ -276,7 +276,7 @@
         <!-- Item Detail Modal -->
         <div id="itemDetailModal" class="item-detail-modal">
             <span class="close-btn" id="closeDetailModalBtn">&times;</span>
-            <h2>Information</h2>
+            <h2>Item Details</h2>
             <label for="itemName">Truck Name:</label>
             <input type="text" id="itemName" disabled>
             <label for="amountToCollect">Amount to be Collected:</label>
@@ -407,6 +407,14 @@
         document.getElementById('addButton').addEventListener('click', function() {
             openAddItemModal();
         });
+        function openAddItemModal() {
+    var modal = document.getElementById('addItemModal');
+    modal.style.display = 'block';
+}
+document.getElementById('addButton').addEventListener('click', function() {
+    openAddItemModal();
+});
+
 
         // Close Add Item Modal
         document.getElementById('closeAddModalBtn').addEventListener('click', function() {

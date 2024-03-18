@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gill Transport</title>
+    <title>Bhada From Transports</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -34,9 +34,11 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            cursor: pointer;
         }
         .item:hover {
             transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         .item-info {
             flex: 1;
@@ -51,6 +53,7 @@
         .amount-to-collect {
             font-size: 16px;
             color: #777;
+            margin-top: 5px;
         }
         .status-icon {
             font-size: 24px;
@@ -84,17 +87,18 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             position: fixed;
             top: 20px;
             right: 20px;
-            z-index: 1000;
         }
         .add-btn:hover {
             background-color: #2980b9;
         }
-        .update-menu {
+        .add-item-modal {
             display: none;
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -105,20 +109,24 @@
             z-index: 1000;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
-        .update-menu input[type="text"] {
-            width: calc(100% - 10px);
-            margin-bottom: 10px;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
+        .add-item-modal h2 {
+            margin-top: 0;
+            text-align: center;
         }
-        .update-menu label {
+        .add-item-modal label {
             display: block;
-            margin-bottom: 5px;
-            font-size: 14px;
+            margin-bottom: 10px;
+            font-size: 16px;
             color: #333;
         }
-        .update-menu button {
+        .add-item-modal input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .add-item-modal button {
             background-color: #4CAF50;
             color: white;
             border: none;
@@ -127,8 +135,10 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
+            display: block;
+            margin: 0 auto;
         }
-        .update-menu button:hover {
+        .add-item-modal button:hover {
             background-color: #45a049;
         }
     </style>
@@ -141,17 +151,32 @@
         </div>
         <button class="add-btn" id="addButton">Add New Item</button>
 
-        <div id="updateMenu" class="update-menu">
-            <input type="text" id="amountInput" placeholder="Enter amount to be collected">
+        <div id="updateMenu" class="add-item-modal">
+            <h2>Update Item</h2>
+            <label for="amountInput">Amount to be Collected:</label>
+            <input type="text" id="amountInput" placeholder="Enter amount">
             <label for="receivedCheckbox">Amount Received:</label>
             <input type="checkbox" id="receivedCheckbox">
             <button id="confirmUpdateBtn">Update</button>
+        </div>
+
+        <div id="itemDetailModal" class="add-item-modal">
+            <h2>Item Details</h2>
+            <label for="itemName">Item Name:</label>
+            <input type="text" id="itemName" disabled>
+            <label for="amountToCollect">Amount to be Collected:</label>
+            <input type="text" id="amountToCollect" disabled>
+            <label for="address">Address:</label>
+            <input type="text" id="address" disabled>
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="text" id="phoneNumber" disabled>
+            <button id="closeModalBtn">Close</button>
         </div>
     </div>
 
     <script>
         // Function to add a new item
-        function addItem(name, cashReceived, amount, index) {
+        function addItem(name, cashReceived, amount, address, phoneNumber, index) {
             var itemsContainer = document.getElementById("items");
 
             var newItem = document.createElement("div");
@@ -166,7 +191,7 @@
             
             var amountToCollect = document.createElement("span");
             amountToCollect.classList.add("amount-to-collect");
-            amountToCollect.textContent = "Amount to collect: " + (amount ? amount : "N/A");
+            amountToCollect.textContent = "Amount to be collected: " + (amount ? amount : "N/A");
 
             var statusIcon = document.createElement("span");
             statusIcon.textContent = cashReceived ? "✔" : "❌";
@@ -188,25 +213,22 @@
             updateBtn.addEventListener('click', function() {
                 openUpdateMenu(index);
             });
+
+            newItem.addEventListener('click', function() {
+                openItemDetailModal(name, amount, address, phoneNumber);
+            });
         }
 
         // Sample data (can be replaced with dynamic data from backend)
         var items = [
-            { name: "Truck 1971", cashReceived: true, amount: 100 },
-            { name: "Truck 7271", cashReceived: false, amount: 150 },
-            { name: "Truck 8871", cashReceived: true, amount: 200 },
-            { name: "Truck 1234", cashReceived: false },
-            { name: "Truck 5678", cashReceived: true, amount: 250 },
-            { name: "Truck 9012", cashReceived: false, amount: 300 },
-            { name: "Truck 3456", cashReceived: true, amount: 350 },
-            { name: "Truck 7890", cashReceived: false },
-            { name: "Truck 6543", cashReceived: true, amount: 400 },
-            { name: "Truck 2109", cashReceived: false, amount: 450 }
+            { name: "Truck 1971", cashReceived: true, amount: 100, address: "123 Main St", phoneNumber: "555-1234" },
+            { name: "Truck 7271", cashReceived: false, amount: 150, address: "456 Elm St", phoneNumber: "555-5678" },
+            // Add more sample items here
         ];
 
         // Display existing items
         items.forEach(function(item, index) {
-            addItem(item.name, item.cashReceived, item.amount, index);
+            addItem(item.name, item.cashReceived, item.amount, item.address, item.phoneNumber, index);
         });
 
         // Function to open update menu
@@ -216,7 +238,7 @@
             var amountInput = document.getElementById('amountInput');
             var receivedCheckbox = document.getElementById('receivedCheckbox');
 
-            amountInput.value = ''; // Clear input field
+            amountInput.value = items[index].amount || ''; // Populate amount input
             receivedCheckbox.checked = items[index].cashReceived; // Set checkbox state
 
             updateMenu.style.display = 'block';
@@ -227,32 +249,54 @@
 
                 // Update item details
                 items[index].cashReceived = received;
-                if (amount) {
-                    items[index].amount = amount;
-                }
+                items[index].amount = amount;
 
                 updateItemList();
                 updateMenu.style.display = 'none';
             }
         }
 
-        // Function to update item list after status change
-        function updateItemList() {
-            var itemsContainer = document.getElementById("items");
-            itemsContainer.innerHTML = '';
-            items.forEach(function(item, index) {
-                addItem(item.name, item.cashReceived, item.amount, index);
-            });
+        // Function to open item detail modal
+        function openItemDetailModal(name, amount, address, phoneNumber) {
+            var modal = document.getElementById('itemDetailModal');
+            var itemNameInput = document.getElementById('itemName');
+            var amountToCollectInput = document.getElementById('amountToCollect');
+            var addressInput = document.getElementById('address');
+            var phoneNumberInput = document.getElementById('phoneNumber');
+
+            itemNameInput.value = name;
+            amountToCollectInput.value = amount ? amount : "N/A";
+            addressInput.value = address;
+            phoneNumberInput.value = phoneNumber;
+
+            modal.style.display = 'block';
+
+            var closeModalBtn = document.getElementById('closeModalBtn');
+            closeModalBtn.onclick = function() {
+                modal.style.display = 'none';
+            }
         }
 
         // Add button functionality
         document.getElementById('addButton').addEventListener('click', function() {
             var newItemName = prompt("Enter the name of the new item:");
             if (newItemName) {
-                items.push({ name: newItemName, cashReceived: false });
+                var amountToCollect = prompt("Enter the amount to be collected:");
+                var address = prompt("Enter the address:");
+                var phoneNumber = prompt("Enter the phone number:");
+                items.push({ name: newItemName, cashReceived: false, amount: amountToCollect, address: address, phoneNumber: phoneNumber });
                 updateItemList();
             }
         });
+
+        // Function to update item list after status change
+        function updateItemList() {
+            var itemsContainer = document.getElementById("items");
+            itemsContainer.innerHTML = '';
+            items.forEach(function(item, index) {
+                addItem(item.name, item.cashReceived, item.amount, item.address, item.phoneNumber, index);
+            });
+        }
     </script>
 </body>
 </html>

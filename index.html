@@ -4,40 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gill Transport</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #0d0d0d;
+            color: #fff;
         }
         .navbar {
-            background-color: #333;
+            background-color: #1a1a1a;
             overflow: hidden;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
         }
         .navbar a {
             float: left;
             display: block;
             color: white;
             text-align: center;
-            padding: 14px 20px;
+            padding: 14px 16px;
             text-decoration: none;
+            transition: background-color 0.3s;
         }
         .navbar a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-        .navbar a.active {
-            background-color: #555;
-            color: white;
+            background-color: #444;
         }
         .container {
-            padding: 20px;
+            padding: 100px 20px 20px;
             text-align: center;
         }
         h1 {
-            color: #333;
-            font-size: 36px;
+            color: #fff;
+            font-size: 48px;
             margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        p {
+            color: #ccc;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 50px;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-gap: 40px;
+            justify-content: center;
+            align-items: center;
+            text-align: left;
+        }
+        .feature {
+            background-color: #1a1a1a;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease-in-out;
+        }
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+        .feature i {
+            font-size: 48px;
+            color: #3498db;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .feature h3 {
+            color: #fff;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .feature p {
+            color: #ccc;
+            font-size: 18px;
+            line-height: 1.6;
+            margin: 0;
         }
     </style>
 </head>
@@ -50,8 +95,25 @@
 
 <div class="container">
     <h1>Gill Transport</h1>
-    <p>Welcome to Gill Transport. We provide reliable transportation services.</p>
-    <!-- Add more content here as needed -->
+    <p>Welcome to Gill Transport. We provide reliable transportation services to meet your needs.</p>
+    <div class="features">
+        <div class="feature">
+            <i class="fas fa-shipping-fast"></i>
+            <h3>Fast Delivery</h3>
+            <p>Our efficient logistics ensure your goods reach their destination quickly.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-truck-moving"></i>
+            <h3>Safe Transportation</h3>
+            <p>We prioritize safety and security in every journey we undertake.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-map-marker-alt"></i>
+            <h3>Precise Tracking</h3>
+            <p>Track your shipments in real-time with our advanced tracking system.</p>
+        </div>
+        <!-- Add more features as needed -->
+    </div>
 </div>
 
 </body>

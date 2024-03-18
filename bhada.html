@@ -221,6 +221,10 @@
             <input type="text" id="startDateInput" placeholder="Enter starting date">
             <label for="endDateInput">Ending Date:</label>
             <input type="text" id="endDateInput" placeholder="Enter ending date">
+            <label for="driverNameInput">Driver Name:</label>
+            <input type="text" id="driverNameInput" placeholder="Enter driver name">
+            <label for="conductorNameInput">Conductor Name:</label>
+            <input type="text" id="conductorNameInput" placeholder="Enter conductor name">
             <button id="addItemBtn">Add Information</button>
         </div>
 
@@ -250,6 +254,10 @@
             <input type="text" id="editStartDateInput" placeholder="Enter starting date">
             <label for="editEndDateInput">Ending Date:</label>
             <input type="text" id="editEndDateInput" placeholder="Enter ending date">
+            <label for="editDriverNameInput">Driver Name:</label>
+            <input type="text" id="editDriverNameInput" placeholder="Enter driver name">
+            <label for="editConductorNameInput">Conductor Name:</label>
+            <input type="text" id="editConductorNameInput" placeholder="Enter conductor name">
             <label for="editReceivedCheckbox">Amount Received:</label>
             <input type="checkbox" id="editReceivedCheckbox">
             <button id="confirmEditBtn">Save Changes</button>
@@ -281,6 +289,10 @@
             <input type="text" id="startDate" disabled>
             <label for="endDate">Ending Date:</label>
             <input type="text" id="endDate" disabled>
+            <label for="driverName">Driver Name:</label>
+            <input type="text" id="driverName" disabled>
+            <label for="conductorName">Conductor Name:</label>
+            <input type="text" id="conductorName" disabled>
             <button id="editBtn">Edit</button>
         </div>
 
@@ -338,11 +350,10 @@
 
             itemInfo.appendChild(itemName);
             itemInfo.appendChild(amountToCollect);
-
             newItem.appendChild(itemInfo);
             newItem.appendChild(statusIcon);
 
-            newItem.addEventListener('click', function() {
+            newItem.addEventListener("click", function() {
                 showItemDetail(item);
             });
 
@@ -351,28 +362,40 @@
 
         function showItemDetail(item) {
             var modal = document.getElementById("itemDetailModal");
-            var closeModalBtn = document.getElementById("closeDetailModalBtn");
+            var closeBtn = document.getElementById("closeDetailModalBtn");
             var editBtn = document.getElementById("editBtn");
 
-            document.getElementById("itemName").value = item.name;
-            document.getElementById("amountToCollect").value = item.amount ? item.amount : "N/A";
-            document.getElementById("address").value = item.address ? item.address : "N/A";
-            document.getElementById("phoneNumber").value = item.phoneNumber ? item.phoneNumber : "N/A";
-            document.getElementById("fromWhere").value = item.fromWhere ? item.fromWhere : "N/A";
-            document.getElementById("toWhere").value = item.toWhere ? item.toWhere : "N/A";
-            document.getElementById("weight").value = item.weight ? item.weight : "N/A";
-            document.getElementById("partyName").value = item.partyName ? item.partyName : "N/A";
-            document.getElementById("kilometers").value = item.kilometers ? item.kilometers : "N/A";
-            document.getElementById("startDate").value = item.startDate ? item.startDate : "N/A";
-            document.getElementById("endDate").value = item.endDate ? item.endDate : "N/A";
+            var itemName = document.getElementById("itemName");
+            var amountToCollect = document.getElementById("amountToCollect");
+            var address = document.getElementById("address");
+            var phoneNumber = document.getElementById("phoneNumber");
+            var fromWhere = document.getElementById("fromWhere");
+            var toWhere = document.getElementById("toWhere");
+            var weight = document.getElementById("weight");
+            var partyName = document.getElementById("partyName");
+            var kilometers = document.getElementById("kilometers");
+            var startDate = document.getElementById("startDate");
+            var endDate = document.getElementById("endDate");
+            var driverName = document.getElementById("driverName");
+            var conductorName = document.getElementById("conductorName");
 
-            if (item.cashReceived) {
-                editBtn.style.display = 'none';
-            } else {
-                editBtn.style.display = 'block';
-            }
+            itemName.value = item.name;
+            amountToCollect.value = item.amount ? item.amount : "N/A";
+            address.value = item.address ? item.address : "N/A";
+            phoneNumber.value = item.phoneNumber ? item.phoneNumber : "N/A";
+            fromWhere.value = item.fromWhere ? item.fromWhere : "N/A";
+            toWhere.value = item.toWhere ? item.toWhere : "N/A";
+            weight.value = item.weight ? item.weight : "N/A";
+            partyName.value = item.partyName ? item.partyName : "N/A";
+            kilometers.value = item.kilometers ? item.kilometers : "N/A";
+            startDate.value = item.startDate ? item.startDate : "N/A";
+            endDate.value = item.endDate ? item.endDate : "N/A";
+            driverName.value = item.driverName ? item.driverName : "N/A";
+            conductorName.value = item.conductorName ? item.conductorName : "N/A";
 
-            closeModalBtn.onclick = function() {
+            modal.style.display = "block";
+
+            closeBtn.onclick = function() {
                 modal.style.display = "none";
             }
 
@@ -382,19 +405,105 @@
                 }
             }
 
-            modal.style.display = "block";
+            editBtn.onclick = function() {
+                modal.style.display = "none";
+                showEditMenu(item);
+            }
+        }
+
+        function showEditMenu(item) {
+            var editMenu = document.getElementById("editMenu");
+            var closeBtn = document.getElementById("closeEditMenuBtn");
+            var confirmEditBtn = document.getElementById("confirmEditBtn");
+
+            var editItemNameInput = document.getElementById("editItemNameInput");
+            var editAmountInput = document.getElementById("editAmountInput");
+            var editAddressInput = document.getElementById("editAddressInput");
+            var editPhoneNumberInput = document.getElementById("editPhoneNumberInput");
+            var editFromWhereInput = document.getElementById("editFromWhereInput");
+            var editToWhereInput = document.getElementById("editToWhereInput");
+            var editWeightInput = document.getElementById("editWeightInput");
+            var editPartyNameInput = document.getElementById("editPartyNameInput");
+            var editKilometersInput = document.getElementById("editKilometersInput");
+            var editStartDateInput = document.getElementById("editStartDateInput");
+            var editEndDateInput = document.getElementById("editEndDateInput");
+            var editDriverNameInput = document.getElementById("editDriverNameInput");
+            var editConductorNameInput = document.getElementById("editConductorNameInput");
+            var editReceivedCheckbox = document.getElementById("editReceivedCheckbox");
+
+            editItemNameInput.value = item.name;
+            editAmountInput.value = item.amount ? item.amount : "";
+            editAddressInput.value = item.address ? item.address : "";
+            editPhoneNumberInput.value = item.phoneNumber ? item.phoneNumber : "";
+            editFromWhereInput.value = item.fromWhere ? item.fromWhere : "";
+            editToWhereInput.value = item.toWhere ? item.toWhere : "";
+            editWeightInput.value = item.weight ? item.weight : "";
+            editPartyNameInput.value = item.partyName ? item.partyName : "";
+            editKilometersInput.value = item.kilometers ? item.kilometers : "";
+            editStartDateInput.value = item.startDate ? item.startDate : "";
+            editEndDateInput.value = item.endDate ? item.endDate : "";
+            editDriverNameInput.value = item.driverName ? item.driverName : "";
+            editConductorNameInput.value = item.conductorName ? item.conductorName : "";
+            editReceivedCheckbox.checked = item.cashReceived ? true : false;
+
+            editMenu.style.display = "block";
+
+            closeBtn.onclick = function() {
+                editMenu.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == editMenu) {
+                    editMenu.style.display = "none";
+                }
+            }
+
+            confirmEditBtn.onclick = function() {
+                var newName = editItemNameInput.value;
+                var newAmount = editAmountInput.value;
+                var newAddress = editAddressInput.value;
+                var newPhoneNumber = editPhoneNumberInput.value;
+                var newFromWhere = editFromWhereInput.value;
+                var newToWhere = editToWhereInput.value;
+                var newWeight = editWeightInput.value;
+                var newPartyName = editPartyNameInput.value;
+                var newKilometers = editKilometersInput.value;
+                var newStartDate = editStartDateInput.value;
+                var newEndDate = editEndDateInput.value;
+                var newDriverName = editDriverNameInput.value;
+                var newConductorName = editConductorNameInput.value;
+                var newReceived = editReceivedCheckbox.checked;
+
+                item.name = newName;
+                item.amount = newAmount;
+                item.address = newAddress;
+                item.phoneNumber = newPhoneNumber;
+                item.fromWhere = newFromWhere;
+                item.toWhere = newToWhere;
+                item.weight = newWeight;
+                item.partyName = newPartyName;
+                item.kilometers = newKilometers;
+                item.startDate = newStartDate;
+                item.endDate = newEndDate;
+                item.driverName = newDriverName;
+                item.conductorName = newConductorName;
+                item.cashReceived = newReceived;
+
+                saveItems();
+                displayItems();
+                editMenu.style.display = "none";
+            }
         }
 
         function searchItems() {
-            var input = document.getElementById("searchInput");
-            var filter = input.value.toUpperCase();
+            var input = document.getElementById("searchInput").value.toUpperCase();
             var itemsContainer = document.getElementById("items");
             var items = itemsContainer.getElementsByClassName("item");
 
             for (var i = 0; i < items.length; i++) {
-                var itemName = items[i].getElementsByClassName("item-name")[0];
-                var txtValue = itemName.textContent || itemName.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                var name = items[i].getElementsByClassName("item-name")[0];
+                var textValue = name.textContent || name.innerText;
+                if (textValue.toUpperCase().indexOf(input) > -1) {
                     items[i].style.display = "";
                 } else {
                     items[i].style.display = "none";
@@ -402,150 +511,82 @@
             }
         }
 
-        function openAddModal() {
-            var modal = document.getElementById("addItemModal");
-            var closeModalBtn = document.getElementById("closeAddModalBtn");
-            var addItemBtn = document.getElementById("addItemBtn");
+        displayItems();
 
-            closeModalBtn.onclick = function() {
-                modal.style.display = "none";
-            }
-
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-
-            addItemBtn.onclick = function() {
-                var itemName = document.getElementById("itemNameInput").value;
-                var amount = document.getElementById("amountInput").value;
-                var address = document.getElementById("addressInput").value;
-                var phoneNumber = document.getElementById("phoneNumberInput").value;
-                var fromWhere = document.getElementById("fromWhereInput").value;
-                var toWhere = document.getElementById("toWhereInput").value;
-                var weight = document.getElementById("weightInput").value;
-                var partyName = document.getElementById("partyNameInput").value;
-                var kilometers = document.getElementById("kilometersInput").value;
-                var startDate = document.getElementById("startDateInput").value;
-                var endDate = document.getElementById("endDateInput").value;
-
-                var newItem = {
-                    name: itemName,
-                    amount: amount,
-                    address: address,
-                    phoneNumber: phoneNumber,
-                    fromWhere: fromWhere,
-                    toWhere: toWhere,
-                    weight: weight,
-                    partyName: partyName,
-                    kilometers: kilometers,
-                    startDate: startDate,
-                    endDate: endDate,
-                    cashReceived: false
-                };
-
-                items.push(newItem);
-                saveItems();
-                addItem(newItem);
-                modal.style.display = "none";
-            }
-
-            modal.style.display = "block";
+        document.getElementById("addButton").onclick = function() {
+            document.getElementById("addItemModal").style.display = "block";
         }
 
-        function openEditMenu(itemIndex) {
-            var modal = document.getElementById("editMenu");
-            var closeModalBtn = document.getElementById("closeEditMenuBtn");
-            var confirmEditBtn = document.getElementById("confirmEditBtn");
-
-            var item = items[itemIndex];
-
-            document.getElementById("editItemNameInput").value = item.name;
-            document.getElementById("editAmountInput").value = item.amount ? item.amount : "";
-            document.getElementById("editAddressInput").value = item.address ? item.address : "";
-            document.getElementById("editPhoneNumberInput").value = item.phoneNumber ? item.phoneNumber : "";
-            document.getElementById("editFromWhereInput").value = item.fromWhere ? item.fromWhere : "";
-            document.getElementById("editToWhereInput").value = item.toWhere ? item.toWhere : "";
-            document.getElementById("editWeightInput").value = item.weight ? item.weight : "";
-            document.getElementById("editPartyNameInput").value = item.partyName ? item.partyName : "";
-            document.getElementById("editKilometersInput").value = item.kilometers ? item.kilometers : "";
-            document.getElementById("editStartDateInput").value = item.startDate ? item.startDate : "";
-            document.getElementById("editEndDateInput").value = item.endDate ? item.endDate : "";
-            document.getElementById("editReceivedCheckbox").checked = item.cashReceived;
-
-            closeModalBtn.onclick = function() {
-                modal.style.display = "none";
-            }
-
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-
-            confirmEditBtn.onclick = function() {
-                item.name = document.getElementById("editItemNameInput").value;
-                item.amount = document.getElementById("editAmountInput").value;
-                item.address = document.getElementById("editAddressInput").value;
-                item.phoneNumber = document.getElementById("editPhoneNumberInput").value;
-                item.fromWhere = document.getElementById("editFromWhereInput").value;
-                item.toWhere = document.getElementById("editToWhereInput").value;
-                item.weight = document.getElementById("editWeightInput").value;
-                item.partyName = document.getElementById("editPartyNameInput").value;
-                item.kilometers = document.getElementById("editKilometersInput").value;
-                item.startDate = document.getElementById("editStartDateInput").value;
-                item.endDate = document.getElementById("editEndDateInput").value;
-                item.cashReceived = document.getElementById("editReceivedCheckbox").checked;
-
-                saveItems();
-                displayItems();
-                modal.style.display = "none";
-            }
-
-            modal.style.display = "block";
-        }
-
-        function openDeleteModal() {
-            var modal = document.getElementById("deleteModal");
-            var closeModalBtn = document.getElementById("closeDeleteModalBtn");
-            var deleteItemBtn = document.getElementById("deleteItemBtn");
-            var deleteItemSelect = document.getElementById("deleteItemSelect");
-
-            deleteItemSelect.innerHTML = '';
+        document.getElementById("deleteButton").onclick = function() {
+            document.getElementById("deleteModal").style.display = "block";
+            var select = document.getElementById("deleteItemSelect");
+            select.innerHTML = '';
 
             items.forEach(function(item, index) {
                 var option = document.createElement("option");
                 option.value = index;
                 option.textContent = item.name;
-                deleteItemSelect.appendChild(option);
+                select.appendChild(option);
             });
-
-            closeModalBtn.onclick = function() {
-                modal.style.display = "none";
-            }
-
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-
-            deleteItemBtn.onclick = function() {
-                var selectedIndex = deleteItemSelect.value;
-                items.splice(selectedIndex, 1);
-                saveItems();
-                displayItems();
-                modal.style.display = "none";
-            }
-
-            modal.style.display = "block";
         }
 
-        // Initialize
-        displayItems();
-        document.getElementById("addButton").addEventListener("click", openAddModal);
-        document.getElementById("deleteButton").addEventListener("click", openDeleteModal);
+        document.getElementById("closeAddModalBtn").onclick = function() {
+            document.getElementById("addItemModal").style.display = "none";
+        }
+
+        document.getElementById("addItemBtn").onclick = function() {
+            var name = document.getElementById("itemNameInput").value;
+            var amount = document.getElementById("amountInput").value;
+            var address = document.getElementById("addressInput").value;
+            var phoneNumber = document.getElementById("phoneNumberInput").value;
+            var fromWhere = document.getElementById("fromWhereInput").value;
+            var toWhere = document.getElementById("toWhereInput").value;
+            var weight = document.getElementById("weightInput").value;
+            var partyName = document.getElementById("partyNameInput").value;
+            var kilometers = document.getElementById("kilometersInput").value;
+            var startDate = document.getElementById("startDateInput").value;
+            var endDate = document.getElementById("endDateInput").value;
+            var driverName = document.getElementById("driverNameInput").value;
+            var conductorName = document.getElementById("conductorNameInput").value;
+
+            var item = {
+                name: name,
+                amount: amount,
+                address: address,
+                phoneNumber: phoneNumber,
+                fromWhere: fromWhere,
+                toWhere: toWhere,
+                weight: weight,
+                partyName: partyName,
+                kilometers: kilometers,
+                startDate: startDate,
+                endDate: endDate,
+                driverName: driverName,
+                conductorName: conductorName,
+                cashReceived: false
+            };
+
+            items.push(item);
+            saveItems();
+            displayItems();
+            document.getElementById("addItemModal").style.display = "none";
+        }
+
+        document.getElementById("closeDeleteModalBtn").onclick = function() {
+            document.getElementById("deleteModal").style.display = "none";
+        }
+
+        document.getElementById("deleteItemBtn").onclick = function() {
+            var select = document.getElementById("deleteItemSelect");
+            var index = select.value;
+            if (index !== "") {
+                items.splice(index, 1);
+                saveItems();
+                displayItems();
+            }
+            document.getElementById("deleteModal").style.display = "none";
+        }
     </script>
+
 </body>
 </html>

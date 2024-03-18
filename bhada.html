@@ -286,7 +286,7 @@
         <div class="search-container">
             <input type="text" id="searchInput" onkeyup="searchItems()" placeholder="Search for Truck Name">
         </div>
-        <h2>&nbsp;&nbsp;Truck Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status </h2>
+        <h2>&nbsp;&nbsp;Truck Name Status </h2>
 
         <!-- Items List -->
         <div id="items">
@@ -304,13 +304,27 @@
             <span class="close-btn" id="closeAddModalBtn">&times;</span>
             <h2>Add New Information</h2>
             <label for="itemNameInput">Truck Name:</label>
-            <input type="text" id="itemNameInput" placeholder="Enter item name">
+            <input type="text" id="itemNameInput" placeholder="Enter truck name">
             <label for="amountInput">Amount to be Collected:</label>
             <input type="text" id="amountInput" placeholder="Enter amount">
             <label for="addressInput">Address:</label>
             <input type="text" id="addressInput" placeholder="Enter address">
             <label for="phoneNumberInput">Phone Number:</label>
             <input type="text" id="phoneNumberInput" placeholder="Enter phone number">
+            <label for="fromWhereInput">From Where:</label>
+            <input type="text" id="fromWhereInput" placeholder="Enter starting location">
+            <label for="toWhereInput">To Where:</label>
+            <input type="text" id="toWhereInput" placeholder="Enter destination location">
+            <label for="weightInput">Weight:</label>
+            <input type="text" id="weightInput" placeholder="Enter weight">
+            <label for="partyNameInput">Name of the Party:</label>
+            <input type="text" id="partyNameInput" placeholder="Enter party name">
+            <label for="kilometersInput">Kilometers:</label>
+            <input type="text" id="kilometersInput" placeholder="Enter kilometers">
+            <label for="startDateInput">Starting Date:</label>
+            <input type="text" id="startDateInput" placeholder="Enter starting date">
+            <label for="endDateInput">Ending Date:</label>
+            <input type="text" id="endDateInput" placeholder="Enter ending date">
             <button id="addItemBtn">Add Information</button>
         </div>
 
@@ -319,13 +333,27 @@
             <span class="close-btn" id="closeEditMenuBtn">&times;</span>
             <h2>Edit Item</h2>
             <label for="editItemNameInput">Truck Name:</label>
-            <input type="text" id="editItemNameInput" placeholder="Enter item name">
+            <input type="text" id="editItemNameInput" placeholder="Enter truck name">
             <label for="editAmountInput">Amount to be Collected:</label>
             <input type="text" id="editAmountInput" placeholder="Enter amount">
             <label for="editAddressInput">Address:</label>
             <input type="text" id="editAddressInput" placeholder="Enter address">
             <label for="editPhoneNumberInput">Phone Number:</label>
             <input type="text" id="editPhoneNumberInput" placeholder="Enter phone number">
+            <label for="editFromWhereInput">From Where:</label>
+            <input type="text" id="editFromWhereInput" placeholder="Enter starting location">
+            <label for="editToWhereInput">To Where:</label>
+            <input type="text" id="editToWhereInput" placeholder="Enter destination location">
+            <label for="editWeightInput">Weight:</label>
+            <input type="text" id="editWeightInput" placeholder="Enter weight">
+            <label for="editPartyNameInput">Name of the Party:</label>
+            <input type="text" id="editPartyNameInput" placeholder="Enter party name">
+            <label for="editKilometersInput">Kilometers:</label>
+            <input type="text" id="editKilometersInput" placeholder="Enter kilometers">
+            <label for="editStartDateInput">Starting Date:</label>
+            <input type="text" id="editStartDateInput" placeholder="Enter starting date">
+            <label for="editEndDateInput">Ending Date:</label>
+            <input type="text" id="editEndDateInput" placeholder="Enter ending date">
             <label for="editReceivedCheckbox">Amount Received:</label>
             <input type="checkbox" id="editReceivedCheckbox">
             <button id="confirmEditBtn">Save Changes</button>
@@ -343,6 +371,20 @@
             <input type="text" id="address" disabled>
             <label for="phoneNumber">Phone Number:</label>
             <input type="text" id="phoneNumber" disabled>
+            <label for="fromWhere">From Where:</label>
+            <input type="text" id="fromWhere" disabled>
+            <label for="toWhere">To Where:</label>
+            <input type="text" id="toWhere" disabled>
+            <label for="weight">Weight:</label>
+            <input type="text" id="weight" disabled>
+            <label for="partyName">Name of the Party:</label>
+            <input type="text" id="partyName" disabled>
+            <label for="kilometers">Kilometers:</label>
+            <input type="text" id="kilometers" disabled>
+            <label for="startDate">Starting Date:</label>
+            <input type="text" id="startDate" disabled>
+            <label for="endDate">Ending Date:</label>
+            <input type="text" id="endDate" disabled>
             <button id="editBtn">Edit</button>
         </div>
 
@@ -363,7 +405,7 @@
             localStorage.setItem('items', JSON.stringify(items));
         }
 
-        function addItem(name, cashReceived, amount, address, phoneNumber) {
+        function addItem(name, cashReceived, amount, address, phoneNumber, fromWhere, toWhere, weight, partyName, kilometers, startDate, endDate) {
             var itemsContainer = document.getElementById("items");
 
             var newItem = document.createElement("div");
@@ -392,7 +434,7 @@
             itemsContainer.appendChild(newItem);
 
             newItem.addEventListener('click', function() {
-                openItemDetailModal(name, amount, address, phoneNumber);
+                openItemDetailModal(name, amount, address, phoneNumber, fromWhere, toWhere, weight, partyName, kilometers, startDate, endDate);
             });
         }
 
@@ -401,30 +443,44 @@
             itemsContainer.innerHTML = '';
 
             items.forEach(function(item) {
-                addItem(item.name, item.cashReceived, item.amount, item.address, item.phoneNumber);
+                addItem(item.name, item.cashReceived, item.amount, item.address, item.phoneNumber, item.fromWhere, item.toWhere, item.weight, item.partyName, item.kilometers, item.startDate, item.endDate);
             });
         }
 
         loadItems();
 
-        function openItemDetailModal(name, amount, address, phoneNumber) {
+        function openItemDetailModal(name, amount, address, phoneNumber, fromWhere, toWhere, weight, partyName, kilometers, startDate, endDate) {
             var modal = document.getElementById('itemDetailModal');
             var itemNameInput = document.getElementById('itemName');
             var amountToCollectInput = document.getElementById('amountToCollect');
             var addressInput = document.getElementById('address');
             var phoneNumberInput = document.getElementById('phoneNumber');
+            var fromWhereInput = document.getElementById('fromWhere');
+            var toWhereInput = document.getElementById('toWhere');
+            var weightInput = document.getElementById('weight');
+            var partyNameInput = document.getElementById('partyName');
+            var kilometersInput = document.getElementById('kilometers');
+            var startDateInput = document.getElementById('startDate');
+            var endDateInput = document.getElementById('endDate');
             var editBtn = document.getElementById('editBtn');
 
             itemNameInput.value = name;
             amountToCollectInput.value = amount ? amount : "N/A";
             addressInput.value = address;
             phoneNumberInput.value = phoneNumber;
+            fromWhereInput.value = fromWhere ? fromWhere : "N/A";
+            toWhereInput.value = toWhere ? toWhere : "N/A";
+            weightInput.value = weight ? weight : "N/A";
+            partyNameInput.value = partyName ? partyName : "N/A";
+            kilometersInput.value = kilometers ? kilometers : "N/A";
+            startDateInput.value = startDate ? startDate : "N/A";
+            endDateInput.value = endDate ? endDate : "N/A";
 
             modal.style.display = 'block';
 
             editBtn.onclick = function() {
                 modal.style.display = 'none';
-                openEditMenu(items.findIndex(item => item.name === name), name, amount, address, phoneNumber);
+                openEditMenu(items.findIndex(item => item.name === name), name, amount, address, phoneNumber, fromWhere, toWhere, weight, partyName, kilometers, startDate, endDate);
             };
 
             var closeModalBtn = document.getElementById('closeDetailModalBtn');
@@ -433,79 +489,136 @@
             }
         }
 
-        function openEditMenu(index, name, amount, address, phoneNumber) {
+        function openEditMenu(index, name, amount, address, phoneNumber, fromWhere, toWhere, weight, partyName, kilometers, startDate, endDate) {
             var editMenu = document.getElementById('editMenu');
             var confirmEditBtn = document.getElementById('confirmEditBtn');
             var editItemNameInput = document.getElementById('editItemNameInput');
             var editAmountInput = document.getElementById('editAmountInput');
             var editAddressInput = document.getElementById('editAddressInput');
             var editPhoneNumberInput = document.getElementById('editPhoneNumberInput');
+            var editFromWhereInput = document.getElementById('editFromWhereInput');
+            var editToWhereInput = document.getElementById('editToWhereInput');
+            var editWeightInput = document.getElementById('editWeightInput');
+            var editPartyNameInput = document.getElementById('editPartyNameInput');
+            var editKilometersInput = document.getElementById('editKilometersInput');
+            var editStartDateInput = document.getElementById('editStartDateInput');
+            var editEndDateInput = document.getElementById('editEndDateInput');
             var editReceivedCheckbox = document.getElementById('editReceivedCheckbox');
 
             editItemNameInput.value = name || '';
             editAmountInput.value = amount || '';
             editAddressInput.value = address || '';
             editPhoneNumberInput.value = phoneNumber || '';
+            editFromWhereInput.value = fromWhere || '';
+            editToWhereInput.value = toWhere || '';
+            editWeightInput.value = weight || '';
+            editPartyNameInput.value = partyName || '';
+            editKilometersInput.value = kilometers || '';
+            editStartDateInput.value = startDate || '';
+            editEndDateInput.value = endDate || '';
             editReceivedCheckbox.checked = items[index].cashReceived;
 
             editMenu.style.display = 'block';
 
             confirmEditBtn.onclick = function() {
-                var newName = editItemNameInput.value.trim();
-                var newAmount = editAmountInput.value.trim();
-                var newAddress = editAddressInput.value.trim();
-                var newPhoneNumber = editPhoneNumberInput.value.trim();
-                var received = editReceivedCheckbox.checked;
+                items[index].name = editItemNameInput.value;
+                items[index].amount = editAmountInput.value;
+                items[index].address = editAddressInput.value;
+                items[index].phoneNumber = editPhoneNumberInput.value;
+                items[index].fromWhere = editFromWhereInput.value;
+                items[index].toWhere = editToWhereInput.value;
+                items[index].weight = editWeightInput.value;
+                items[index].partyName = editPartyNameInput.value;
+                items[index].kilometers = editKilometersInput.value;
+                items[index].startDate = editStartDateInput.value;
+                items[index].endDate = editEndDateInput.value;
+                items[index].cashReceived = editReceivedCheckbox.checked;
 
-                items[index].name = newName;
-                items[index].cashReceived = received;
-                items[index].amount = newAmount;
-                items[index].address = newAddress;
-                items[index].phoneNumber = newPhoneNumber;
-
-                loadItems();
+                saveItems();
                 editMenu.style.display = 'none';
+                loadItems();
+            };
+
+            var closeEditMenuBtn = document.getElementById('closeEditMenuBtn');
+            closeEditMenuBtn.onclick = function() {
+                editMenu.style.display = 'none';
+            };
+        }
+
+        var addItemBtn = document.getElementById('addItemBtn');
+        addItemBtn.onclick = function() {
+            var itemNameInput = document.getElementById('itemNameInput');
+            var amountInput = document.getElementById('amountInput');
+            var addressInput = document.getElementById('addressInput');
+            var phoneNumberInput = document.getElementById('phoneNumberInput');
+            var fromWhereInput = document.getElementById('fromWhereInput');
+            var toWhereInput = document.getElementById('toWhereInput');
+            var weightInput = document.getElementById('weightInput');
+            var partyNameInput = document.getElementById('partyNameInput');
+            var kilometersInput = document.getElementById('kilometersInput');
+            var startDateInput = document.getElementById('startDateInput');
+            var endDateInput = document.getElementById('endDateInput');
+
+            var name = itemNameInput.value.trim();
+            var amount = amountInput.value.trim();
+            var address = addressInput.value.trim();
+            var phoneNumber = phoneNumberInput.value.trim();
+            var fromWhere = fromWhereInput.value.trim();
+            var toWhere = toWhereInput.value.trim();
+            var weight = weightInput.value.trim();
+            var partyName = partyNameInput.value.trim();
+            var kilometers = kilometersInput.value.trim();
+            var startDate = startDateInput.value.trim();
+            var endDate = endDateInput.value.trim();
+
+            if (name === '' || address === '') {
+                alert('Please fill out all required fields.');
+                return;
             }
-        }
 
-        document.getElementById('addButton').addEventListener('click', function() {
-            openAddItemModal();
-        });
-
-        document.getElementById('deleteButton').addEventListener('click', function() {
-            openDeleteModal();
-        });
-
-        function openAddItemModal() {
-            var modal = document.getElementById('addItemModal');
-            modal.style.display = 'block';
-
-            document.getElementById('addItemBtn').addEventListener('click', function() {
-                var name = document.getElementById('itemNameInput').value.trim();
-                var amount = document.getElementById('amountInput').value.trim();
-                var address = document.getElementById('addressInput').value.trim();
-                var phoneNumber = document.getElementById('phoneNumberInput').value.trim();
-
-                if (name !== '' && amount !== '' && address !== '' && phoneNumber !== '') {
-                    items.push({
-                        name: name,
-                        cashReceived: false,
-                        amount: amount,
-                        address: address,
-                        phoneNumber: phoneNumber
-                    });
-
-                    saveItems();
-                    loadItems();
-                    modal.style.display = 'none';
-                } else {
-                    alert('Please fill in all fields.');
-                }
+            addItem(name, false, amount, address, phoneNumber, fromWhere, toWhere, weight, partyName, kilometers, startDate, endDate);
+            items.push({
+                name: name,
+                amount: amount,
+                address: address,
+                phoneNumber: phoneNumber,
+                fromWhere: fromWhere,
+                toWhere: toWhere,
+                weight: weight,
+                partyName: partyName,
+                kilometers: kilometers,
+                startDate: startDate,
+                endDate: endDate,
+                cashReceived: false
             });
-        }
+            saveItems();
+            itemNameInput.value = '';
+            amountInput.value = '';
+            addressInput.value = '';
+            phoneNumberInput.value = '';
+            fromWhereInput.value = '';
+            toWhereInput.value = '';
+            weightInput.value = '';
+            partyNameInput.value = '';
+            kilometersInput.value = '';
+            startDateInput.value = '';
+            endDateInput.value = '';
+        };
 
-        function openDeleteModal() {
-            var deleteModal = document.getElementById('deleteModal');
+        var addModalBtn = document.getElementById('addButton');
+        var addItemModal = document.getElementById('addItemModal');
+        addModalBtn.onclick = function() {
+            addItemModal.style.display = 'block';
+        };
+
+        var closeAddModalBtn = document.getElementById('closeAddModalBtn');
+        closeAddModalBtn.onclick = function() {
+            addItemModal.style.display = 'none';
+        };
+
+        var deleteModal = document.getElementById('deleteModal');
+        var deleteButton = document.getElementById('deleteButton');
+        deleteButton.onclick = function() {
             var deleteItemSelect = document.getElementById('deleteItemSelect');
             deleteItemSelect.innerHTML = '';
 
@@ -517,45 +630,43 @@
             });
 
             deleteModal.style.display = 'block';
+        };
 
-            var closeModalBtn = document.getElementById('closeDeleteModalBtn');
-            closeModalBtn.onclick = function() {
+        var closeDeleteModalBtn = document.getElementById('closeDeleteModalBtn');
+        closeDeleteModalBtn.onclick = function() {
+            deleteModal.style.display = 'none';
+        };
+
+        var deleteItemBtn = document.getElementById('deleteItemBtn');
+        deleteItemBtn.onclick = function() {
+            var deleteItemSelect = document.getElementById('deleteItemSelect');
+            var selectedIndex = deleteItemSelect.value;
+
+            items.splice(selectedIndex, 1);
+            saveItems();
+            deleteModal.style.display = 'none';
+            loadItems();
+        };
+
+        window.onclick = function(event) {
+            if (event.target == deleteModal) {
                 deleteModal.style.display = 'none';
             }
-
-            var deleteItemBtn = document.getElementById('deleteItemBtn');
-            deleteItemBtn.onclick = function() {
-                var selectedIndex = deleteItemSelect.value;
-                if (selectedIndex !== '') {
-                    items.splice(selectedIndex, 1);
-                    saveItems();
-                    loadItems();
-                    deleteModal.style.display = 'none';
-                }
-            };
-        }
-
-        document.getElementById('closeAddModalBtn').addEventListener('click', function() {
-            document.getElementById('addItemModal').style.display = 'none';
-        });
-
-        document.getElementById('closeEditMenuBtn').addEventListener('click', function() {
-            document.getElementById('editMenu').style.display = 'none';
-        });
+        };
 
         function searchItems() {
-            var input, filter, items, item, itemName, i, txtValue;
+            var input, filter, itemsContainer, items, item, i, txtValue;
             input = document.getElementById("searchInput");
             filter = input.value.toUpperCase();
-            items = document.getElementById("items");
-            item = items.getElementsByClassName("item");
-            for (i = 0; i < item.length; i++) {
-                itemName = item[i].getElementsByClassName("item-name")[0];
-                txtValue = itemName.textContent || itemName.innerText;
+            itemsContainer = document.getElementById("items");
+            items = itemsContainer.getElementsByClassName("item");
+            for (i = 0; i < items.length; i++) {
+                item = items[i].getElementsByClassName("item-name")[0];
+                txtValue = item.textContent || item.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    item[i].style.display = "";
+                    items[i].style.display = "";
                 } else {
-                    item[i].style.display = "none";
+                    items[i].style.display = "none";
                 }
             }
         }

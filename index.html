@@ -292,7 +292,6 @@
     <script>
         var items = JSON.parse(localStorage.getItem('items')) || [];
 
-        // Function to save items to localStorage
         function saveItems() {
             localStorage.setItem('items', JSON.stringify(items));
         }
@@ -332,7 +331,7 @@
 
         function loadItems() {
             var itemsContainer = document.getElementById("items");
-            itemsContainer.innerHTML = ''; // Clear existing items
+            itemsContainer.innerHTML = '';
 
             items.forEach(function(item) {
                 addItem(item.name, item.cashReceived, item.amount, item.address, item.phoneNumber);
@@ -341,7 +340,6 @@
 
         loadItems();
 
-        // Function to open item detail modal
         function openItemDetailModal(name, amount, address, phoneNumber) {
             var modal = document.getElementById('itemDetailModal');
             var itemNameInput = document.getElementById('itemName');
@@ -368,7 +366,6 @@
             }
         }
 
-        // Function to open edit menu
         function openEditMenu(index, name, amount, address, phoneNumber) {
             var editMenu = document.getElementById('editMenu');
             var confirmEditBtn = document.getElementById('confirmEditBtn');
@@ -378,11 +375,11 @@
             var editPhoneNumberInput = document.getElementById('editPhoneNumberInput');
             var editReceivedCheckbox = document.getElementById('editReceivedCheckbox');
 
-            editItemNameInput.value = name || ''; // Populate item name input
-            editAmountInput.value = amount || ''; // Populate amount input
-            editAddressInput.value = address || ''; // Populate address input
-            editPhoneNumberInput.value = phoneNumber || ''; // Populate phone number input
-            editReceivedCheckbox.checked = items[index].cashReceived; // Set checkbox state
+            editItemNameInput.value = name || '';
+            editAmountInput.value = amount || '';
+            editAddressInput.value = address || '';
+            editPhoneNumberInput.value = phoneNumber || '';
+            editReceivedCheckbox.checked = items[index].cashReceived;
 
             editMenu.style.display = 'block';
 
@@ -393,19 +390,17 @@
                 var newPhoneNumber = editPhoneNumberInput.value.trim();
                 var received = editReceivedCheckbox.checked;
 
-                // Update item details
                 items[index].name = newName;
                 items[index].cashReceived = received;
                 items[index].amount = newAmount;
                 items[index].address = newAddress;
                 items[index].phoneNumber = newPhoneNumber;
 
-                loadItems(); // Reload items to reflect changes
+                loadItems();
                 editMenu.style.display = 'none';
             }
         }
 
-        // Event listener for Add New Item button
         document.getElementById('addButton').addEventListener('click', function() {
             openAddItemModal();
         });
@@ -414,7 +409,6 @@
             var modal = document.getElementById('addItemModal');
             modal.style.display = 'block';
 
-            // Handle click on Add Information button
             document.getElementById('addItemBtn').addEventListener('click', function() {
                 var name = document.getElementById('itemNameInput').value.trim();
                 var amount = document.getElementById('amountInput').value.trim();
@@ -430,25 +424,23 @@
                         phoneNumber: phoneNumber
                     });
 
-                    loadItems(); // Reload items to reflect changes
-                    modal.style.display = 'none'; // Close the modal
+                    saveItems();
+                    loadItems();
+                    modal.style.display = 'none';
                 } else {
                     alert('Please fill in all fields.');
                 }
             });
         }
 
-        // Close Add Item Modal
         document.getElementById('closeAddModalBtn').addEventListener('click', function() {
             document.getElementById('addItemModal').style.display = 'none';
         });
 
-        // Close Edit Menu
         document.getElementById('closeEditMenuBtn').addEventListener('click', function() {
             document.getElementById('editMenu').style.display = 'none';
         });
 
-        // Function to search items
         function searchItems() {
             var input, filter, items, item, itemName, i, txtValue;
             input = document.getElementById("searchInput");

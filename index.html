@@ -93,7 +93,7 @@
             background-color: #444;
             color: #eee;
         }
-        .add-btn {
+        .add-btn, .delete-btn {
             background-color: #3498db;
             color: white;
             border: none;
@@ -106,7 +106,7 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             margin-right: 10px;
         }
-        .add-btn:hover {
+        .add-btn:hover, .delete-btn:hover {
             background-color: #2980b9;
         }
         .add-item-modal {
@@ -221,6 +221,52 @@
             color: #eee;
             cursor: pointer;
         }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .modal-content h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+        .modal-content select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+        .modal-content button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .modal-content button:hover {
+            background-color: #d32f2f;
+        }
     </style>
 </head>
 <body>
@@ -241,51 +287,52 @@
         <!-- Add Button -->
         <button class="add-btn" id="addButton">Add New Information</button>
 
+        <!-- Delete Button -->
+        <button class="delete-btn" id="deleteButton">Delete Information</button>
+
         <!-- Add Item Modal -->
-        <div id="addItemModal" class="add-item-modal">
-            <span class="close-btn" id="closeAddModalBtn">&times;</span>
-            <h2>Add New Information</h2>
-            <label for="itemNameInput">Truck Name:</label>
-            <input type="text" id="itemNameInput" placeholder="Enter item name">
-            <label for="amountInput">Amount to be Collected:</label>
-            <input type="text" id="amountInput" placeholder="Enter amount">
-            <label for="addressInput">Address:</label>
-            <input type="text" id="addressInput" placeholder="Enter address">
-            <label for="phoneNumberInput">Phone Number:</label>
-            <input type="text" id="phoneNumberInput" placeholder="Enter phone number">
-            <button id="addItemBtn">Add Information</button>
+        <div id="addItemModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" id="closeAddModalBtn">&times;</span>
+                <h2>Add New Information</h2>
+                <label for="itemNameInput">Truck Name:</label>
+                <input type="text" id="itemNameInput" placeholder="Enter item name">
+                <label for="amountInput">Amount to be Collected:</label>
+                <input type="text" id="amountInput" placeholder="Enter amount">
+                <label for="addressInput">Address:</label>
+                <input type="text" id="addressInput" placeholder="Enter address">
+                <label for="phoneNumberInput">Phone Number:</label>
+                <input type="text" id="phoneNumberInput" placeholder="Enter phone number">
+                <button id="addItemBtn">Add Information</button>
+            </div>
         </div>
 
-        <!-- Edit Menu -->
-        <div id="editMenu" class="add-item-modal">
-            <span class="close-btn" id="closeEditMenuBtn">&times;</span>
-            <h2>Edit Item</h2>
-            <label for="editItemNameInput">Truck Name:</label>
-            <input type="text" id="editItemNameInput" placeholder="Enter item name">
-            <label for="editAmountInput">Amount to be Collected:</label>
-            <input type="text" id="editAmountInput" placeholder="Enter amount">
-            <label for="editAddressInput">Address:</label>
-            <input type="text" id="editAddressInput" placeholder="Enter address">
-            <label for="editPhoneNumberInput">Phone Number:</label>
-            <input type="text" id="editPhoneNumberInput" placeholder="Enter phone number">
-            <label for="editReceivedCheckbox">Amount Received:</label>
-            <input type="checkbox" id="editReceivedCheckbox">
-            <button id="confirmEditBtn">Save Changes</button>
+        <!-- Delete Item Modal -->
+        <div id="deleteModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" id="closeDeleteModalBtn">&times;</span>
+                <h2>Delete Information</h2>
+                <label for="deleteItemSelect">Select Truck Name:</label>
+                <select id="deleteItemSelect"></select>
+                <button id="deleteItemBtn">Delete</button>
+            </div>
         </div>
 
         <!-- Item Detail Modal -->
-        <div id="itemDetailModal" class="item-detail-modal">
-            <span class="close-btn" id="closeDetailModalBtn">&times;</span>
-            <h2>Item Details</h2>
-            <label for="itemName">Truck Name:</label>
-            <input type="text" id="itemName" disabled>
-            <label for="amountToCollect">Amount to be Collected:</label>
-            <input type="text" id="amountToCollect" disabled>
-            <label for="address">Address:</label>
-            <input type="text" id="address" disabled>
-            <label for="phoneNumber">Phone Number:</label>
-            <input type="text" id="phoneNumber" disabled>
-            <button id="editBtn">Edit</button>
+        <div id="itemDetailModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" id="closeDetailModalBtn">&times;</span>
+                <h2>Item Details</h2>
+                <label for="itemName">Truck Name:</label>
+                <input type="text" id="itemName" disabled>
+                <label for="amountToCollect">Amount to be Collected:</label>
+                <input type="text" id="amountToCollect" disabled>
+                <label for="address">Address:</label>
+                <input type="text" id="address" disabled>
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="text" id="phoneNumber" disabled>
+                <button id="editBtn">Edit</button>
+            </div>
         </div>
     </div>
 
@@ -433,8 +480,41 @@
             });
         }
 
+        document.getElementById('deleteButton').addEventListener('click', function() {
+            openDeleteModal();
+        });
+
+        function openDeleteModal() {
+            var modal = document.getElementById('deleteModal');
+            var select = document.getElementById('deleteItemSelect');
+            select.innerHTML = '';
+
+            items.forEach(function(item, index) {
+                var option = document.createElement('option');
+                option.text = item.name;
+                option.value = index;
+                select.add(option);
+            });
+
+            modal.style.display = 'block';
+
+            document.getElementById('deleteItemBtn').addEventListener('click', function() {
+                var selectedIndex = select.value;
+                if (selectedIndex !== '') {
+                    items.splice(selectedIndex, 1);
+                    saveItems();
+                    loadItems();
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
         document.getElementById('closeAddModalBtn').addEventListener('click', function() {
             document.getElementById('addItemModal').style.display = 'none';
+        });
+
+        document.getElementById('closeDeleteModalBtn').addEventListener('click', function() {
+            document.getElementById('deleteModal').style.display = 'none';
         });
 
         document.getElementById('closeEditMenuBtn').addEventListener('click', function() {

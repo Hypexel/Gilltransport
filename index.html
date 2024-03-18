@@ -219,6 +219,20 @@
             });
         }
 
+        // Load items from local storage
+        function loadItems() {
+            var savedItems = localStorage.getItem('items');
+            if (savedItems) {
+                items = JSON.parse(savedItems);
+                updateItemList();
+            }
+        }
+
+        // Save items to local storage
+        function saveItems() {
+            localStorage.setItem('items', JSON.stringify(items));
+        }
+
         // Sample data (can be replaced with dynamic data from backend)
         var items = [
             { name: "Truck 1971", cashReceived: true, amount: 100, address: "123 Main St", phoneNumber: "555-1234" },
@@ -227,9 +241,7 @@
         ];
 
         // Display existing items
-        items.forEach(function(item, index) {
-            addItem(item.name, item.cashReceived, item.amount, item.address, item.phoneNumber, index);
-        });
+        loadItems();
 
         // Function to open update menu
         function openUpdateMenu(index) {
@@ -251,6 +263,7 @@
                 items[index].cashReceived = received;
                 items[index].amount = amount;
 
+                saveItems(); // Save items to local storage
                 updateItemList();
                 updateMenu.style.display = 'none';
             }
@@ -285,6 +298,7 @@
                 var address = prompt("Enter the address:");
                 var phoneNumber = prompt("Enter the phone number:");
                 items.push({ name: newItemName, cashReceived: false, amount: amountToCollect, address: address, phoneNumber: phoneNumber });
+                saveItems(); // Save items to local storage
                 updateItemList();
             }
         });

@@ -231,7 +231,7 @@
         <div class="search-container">
             <input type="text" id="searchInput" onkeyup="searchItems()" placeholder="Search for Truck Name">
         </div>
-        <h2>&nbsp;&nbsp;Truck Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status </h2>
+        <h2>&nbsp;&nbsp;Truck Name Status </h2>
 
         <!-- Items List -->
         <div id="items">
@@ -290,10 +290,7 @@
     </div>
 
     <script>
-        var items = JSON.parse(localStorage.getItem('items')) || [
-            { name: "Truck 1971", cashReceived: true, amount: 100, address: "123 Main St", phoneNumber: "555-1234" },
-            { name: "Truck 7271", cashReceived: false, amount: 150, address: "456 Elm St", phoneNumber: "555-5678" }
-        ];
+        var items = JSON.parse(localStorage.getItem('items')) || [];
 
         // Function to save items to localStorage
         function saveItems() {

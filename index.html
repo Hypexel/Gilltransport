@@ -290,10 +290,15 @@
     </div>
 
     <script>
-        var items = [
+        var items = JSON.parse(localStorage.getItem('items')) || [
             { name: "Truck 1971", cashReceived: true, amount: 100, address: "123 Main St", phoneNumber: "555-1234" },
             { name: "Truck 7271", cashReceived: false, amount: 150, address: "456 Elm St", phoneNumber: "555-5678" }
         ];
+
+        // Function to save items to localStorage
+        function saveItems() {
+            localStorage.setItem('items', JSON.stringify(items));
+        }
 
         function addItem(name, cashReceived, amount, address, phoneNumber) {
             var itemsContainer = document.getElementById("items");

@@ -231,7 +231,7 @@
         <div class="search-container">
             <input type="text" id="searchInput" onkeyup="searchItems()" placeholder="Search for Truck Name">
         </div>
-        <h2>&nbsp;&nbsp;Truck Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status </h2>
+        <h2>&nbsp;&nbsp;Truck Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status </h2>
 
         <!-- Items List -->
         <div id="items">
@@ -407,14 +407,34 @@
         document.getElementById('addButton').addEventListener('click', function() {
             openAddItemModal();
         });
-        function openAddItemModal() {
-    var modal = document.getElementById('addItemModal');
-    modal.style.display = 'block';
-}
-document.getElementById('addButton').addEventListener('click', function() {
-    openAddItemModal();
-});
 
+        function openAddItemModal() {
+            var modal = document.getElementById('addItemModal');
+            modal.style.display = 'block';
+
+            // Handle click on Add Information button
+            document.getElementById('addItemBtn').addEventListener('click', function() {
+                var name = document.getElementById('itemNameInput').value.trim();
+                var amount = document.getElementById('amountInput').value.trim();
+                var address = document.getElementById('addressInput').value.trim();
+                var phoneNumber = document.getElementById('phoneNumberInput').value.trim();
+
+                if (name !== '' && amount !== '' && address !== '' && phoneNumber !== '') {
+                    items.push({
+                        name: name,
+                        cashReceived: false,
+                        amount: amount,
+                        address: address,
+                        phoneNumber: phoneNumber
+                    });
+
+                    loadItems(); // Reload items to reflect changes
+                    modal.style.display = 'none'; // Close the modal
+                } else {
+                    alert('Please fill in all fields.');
+                }
+            });
+        }
 
         // Close Add Item Modal
         document.getElementById('closeAddModalBtn').addEventListener('click', function() {

@@ -7,11 +7,10 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f9f9f9;
+            background-color: #222;
+            color: #eee;
             margin: 0;
             padding: 0;
-            color: #333;
-            line-height: 1.6;
         }
         .container {
             max-width: 800px;
@@ -20,16 +19,16 @@
         }
         h1 {
             text-align: center;
-            color: #333;
+            color: #eee;
             margin-top: 30px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
         .item {
             margin-bottom: 20px;
             padding: 20px;
-            background-color: #fff;
+            background-color: #333;
             border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease-in-out;
             display: flex;
             align-items: center;
@@ -38,7 +37,7 @@
         }
         .item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
         }
         .item-info {
             flex: 1;
@@ -49,10 +48,11 @@
             font-size: 20px;
             font-weight: bold;
             margin-bottom: 5px;
+            color: #eee;
         }
         .amount-to-collect {
             font-size: 16px;
-            color: #777;
+            color: #ccc;
             margin-top: 5px;
         }
         .status-icon {
@@ -103,6 +103,8 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             outline: none;
+            background-color: #444;
+            color: #eee;
         }
         .add-btn {
             background-color: #3498db;
@@ -114,7 +116,7 @@
             cursor: pointer;
             transition: background-color 0.3s;
             z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             margin-right: 10px;
         }
         .add-btn:hover {
@@ -126,29 +128,36 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: #fff;
+            background-color: #444;
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 20px;
             z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 80%;
         }
         .add-item-modal h2 {
             margin-top: 0;
             text-align: center;
+            color: #eee;
         }
         .add-item-modal label {
             display: block;
             margin-bottom: 10px;
             font-size: 16px;
-            color: #333;
+            color: #eee;
         }
         .add-item-modal input[type="text"] {
-            width: 100%;
+            width: calc(100% - 22px);
             padding: 8px;
             margin-bottom: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            outline: none;
+            margin-left: 10px;
+            background-color: #666;
+            color: #eee;
         }
         .add-item-modal button {
             background-color: #4CAF50;
@@ -164,6 +173,66 @@
         }
         .add-item-modal button:hover {
             background-color: #45a049;
+        }
+        .item-detail-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #444;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 80%;
+        }
+        .item-detail-modal h2 {
+            margin-top: 0;
+            text-align: center;
+            color: #eee;
+        }
+        .item-detail-modal label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #eee;
+        }
+        .item-detail-modal input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            margin-left: 10px;
+            background-color: #666;
+            color: #eee;
+        }
+        .item-detail-modal button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            margin: 0 auto;
+        }
+        .item-detail-modal button:hover {
+            background-color: #45a049;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: #eee;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -185,7 +254,23 @@
         <button class="add-btn" id="addButton">Add New Item</button>
 
         <!-- Add Item Modal -->
+        <div id="addItemModal" class="add-item-modal">
+            <span class="close-btn" id="closeAddModalBtn">&times;</span>
+            <h2>Add New Item</h2>
+            <label for="itemNameInput">Item Name:</label>
+            <input type="text" id="itemNameInput" placeholder="Enter item name">
+            <label for="amountInput">Amount to be Collected:</label>
+            <input type="text" id="amountInput" placeholder="Enter amount">
+            <label for="addressInput">Address:</label>
+            <input type="text" id="addressInput" placeholder="Enter address">
+            <label for="phoneNumberInput">Phone Number:</label>
+            <input type="text" id="phoneNumberInput" placeholder="Enter phone number">
+            <button id="addItemBtn">Add Item</button>
+        </div>
+
+        <!-- Update Menu -->
         <div id="updateMenu" class="add-item-modal">
+            <span class="close-btn" id="closeUpdateMenuBtn">&times;</span>
             <h2>Update Item</h2>
             <label for="amountInput">Amount to be Collected:</label>
             <input type="text" id="amountInput" placeholder="Enter amount">
@@ -195,7 +280,8 @@
         </div>
 
         <!-- Item Detail Modal -->
-        <div id="itemDetailModal" class="add-item-modal">
+        <div id="itemDetailModal" class="item-detail-modal">
+            <span class="close-btn" id="closeDetailModalBtn">&times;</span>
             <h2>Item Details</h2>
             <label for="itemName">Item Name:</label>
             <input type="text" id="itemName" disabled>
@@ -205,6 +291,7 @@
             <input type="text" id="address" disabled>
             <label for="phoneNumber">Phone Number:</label>
             <input type="text" id="phoneNumber" disabled>
+            <button id="editBtn">Edit</button>
             <button id="closeModalBtn">Close</button>
         </div>
     </div>
@@ -238,26 +325,16 @@
             updateBtn.classList.add("update-btn");
             updateBtn.dataset.index = index;
 
-            var deleteBtn = document.createElement("button");
-            deleteBtn.textContent = "Delete";
-            deleteBtn.classList.add("delete-btn");
-            deleteBtn.dataset.index = index;
-
             itemInfo.appendChild(itemName);
             itemInfo.appendChild(amountToCollect);
             newItem.appendChild(itemInfo);
             newItem.appendChild(statusIcon);
             newItem.appendChild(updateBtn);
-            newItem.appendChild(deleteBtn);
             itemsContainer.appendChild(newItem);
 
             updateBtn.addEventListener('click', function(event) {
                 event.stopPropagation(); // Stop event propagation
                 openUpdateMenu(index);
-            });
-
-            deleteBtn.addEventListener('click', function() {
-                deleteItem(index);
             });
 
             newItem.addEventListener('click', function() {
@@ -315,6 +392,39 @@
             }
         }
 
+        // Function to open add item modal
+        function openAddItemModal() {
+            var addItemModal = document.getElementById('addItemModal');
+            var addItemBtn = document.getElementById('addItemBtn');
+            var itemNameInput = document.getElementById('itemNameInput');
+            var amountInput = document.getElementById('amountInput');
+            var addressInput = document.getElementById('addressInput');
+            var phoneNumberInput = document.getElementById('phoneNumberInput');
+
+            itemNameInput.value = ''; // Clear input fields
+            amountInput.value = '';
+            addressInput.value = '';
+            phoneNumberInput.value = '';
+
+            addItemModal.style.display = 'block';
+
+            addItemBtn.onclick = function() {
+                var name = itemNameInput.value.trim();
+                var amount = amountInput.value.trim();
+                var address = addressInput.value.trim();
+                var phoneNumber = phoneNumberInput.value.trim();
+
+                if (name !== '') {
+                    items.push({ name: name, cashReceived: false, amount: amount, address: address, phoneNumber: phoneNumber });
+                    saveItems(); // Save items to local storage
+                    updateItemList();
+                    addItemModal.style.display = 'none';
+                } else {
+                    alert('Please enter item name.');
+                }
+            }
+        }
+
         // Function to open item detail modal
         function openItemDetailModal(name, amount, address, phoneNumber) {
             var modal = document.getElementById('itemDetailModal');
@@ -322,48 +432,57 @@
             var amountToCollectInput = document.getElementById('amountToCollect');
             var addressInput = document.getElementById('address');
             var phoneNumberInput = document.getElementById('phoneNumber');
+            var editBtn = document.getElementById('editBtn');
+            var closeModalBtn = document.getElementById('closeModalBtn');
 
             itemNameInput.value = name;
-            amountToCollectInput.value = amount ? amount : "N/A";
+            amountToCollectInput.value = amount ? amount : 'N/A';
             addressInput.value = address;
             phoneNumberInput.value = phoneNumber;
 
             modal.style.display = 'block';
 
-            var closeModalBtn = document.getElementById('closeModalBtn');
+            editBtn.onclick = function() {
+                openUpdateMenu(items.findIndex(item => item.name === name));
+                modal.style.display = 'none';
+            }
+
             closeModalBtn.onclick = function() {
                 modal.style.display = 'none';
             }
-        }
 
-        // Function to delete item
-        function deleteItem(index) {
-            if (confirm("Are you sure you want to delete this item?")) {
-                items.splice(index, 1);
-                saveItems(); // Save items to local storage
-                updateItemList();
+            window.onclick = function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
             }
         }
 
-        // Function to update item list after status change
+        // Close modals
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Update items list
         function updateItemList() {
-            var itemsContainer = document.getElementById("items");
-            itemsContainer.innerHTML = '';
+            var itemsContainer = document.getElementById('items');
+            itemsContainer.innerHTML = ''; // Clear items container
             items.forEach(function(item, index) {
                 addItem(item.name, item.cashReceived, item.amount, item.address, item.phoneNumber, index);
             });
         }
 
-        // Function to search items
+        // Search functionality
         function searchItems() {
-            var input, filter, itemsContainer, items, item, i, txtValue;
+            var input, filter, itemsContainer, items, itemName, i, txtValue;
             input = document.getElementById("searchInput");
             filter = input.value.toUpperCase();
             itemsContainer = document.getElementById("items");
             items = itemsContainer.getElementsByClassName("item");
+
             for (i = 0; i < items.length; i++) {
-                item = items[i].getElementsByClassName("item-name")[0];
-                txtValue = item.textContent || item.innerText;
+                itemName = items[i].getElementsByClassName("item-name")[0];
+                txtValue = itemName.textContent || itemName.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
                     items[i].style.display = "";
                 } else {
@@ -371,6 +490,12 @@
                 }
             }
         }
+
+        // Event Listeners
+        document.getElementById('addButton').addEventListener('click', openAddItemModal);
+        document.getElementById('closeAddModalBtn').addEventListener('click', function() { closeModal('addItemModal'); });
+        document.getElementById('closeUpdateMenuBtn').addEventListener('click', function() { closeModal('updateMenu'); });
+        document.getElementById('closeDetailModalBtn').addEventListener('click', function() { closeModal('itemDetailModal'); });
     </script>
 </body>
 </html>

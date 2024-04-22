@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Records</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007bff;
+            margin-top: 0;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        li {
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li:hover {
+            background-color: #e9ecef;
+        }
+
+        .addRecordBtn {
+            background-color: #28a745;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .addRecordBtn:hover {
+            background-color: #218838;
+        }
+
+        .form-container {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .form-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 5px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .form-input {
+            width: calc(100% - 40px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .submit-btn {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .money-history {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #fff;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .record {
+            margin-bottom: 5px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            font-size: 14px;
+        }
+
+        #adminViewBtn {
+            float: right;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #adminViewBtn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Money Records</h1>
+        <button id="adminViewBtn">Admin View</button>
+        <button id="addPersonBtn">Add New Person</button>
+        <ul id="peopleList">
+            <!-- Person records will be dynamically added here -->
+        </ul>
+        <input type="text" id="searchInput" placeholder="Search...">
+    </div>
+
+    <!-- Add new person form -->
+    <div id="addPersonModal" class="form-container">
+        <div class="form-content">
+            <span class="close" onclick="closeModal('addPersonModal')">&times;</span>
+            <h2>Add New Person</h2>
+            <input type="text" id="personName" class="form-input" placeholder="Enter person's name">
+            <button id="addPersonSubmitBtn" class="submit-btn">Add Person</button>
+        </div>
+    </div>
+
+    <!-- Add record form -->
+    <div id="addRecordModal" class="form-container">
+        <div class="form-content">
+            <span class="close" onclick="closeModal('addRecordModal')">&times;</span>
+            <h2>Add Record</h2>
+            <input type="number" id="recordAmount" class="form-input" placeholder="Enter amount taken">
+            <input type="text" id="recordDescription" class="form-input" placeholder="Enter description">
+            <button id="addRecordSubmitBtn" class="submit-btn">Add Record</button>
+        </div>
+    </div>
+
+    <script>
+        // Load data from localStorage if available
+        let people = JSON.parse(localStorage.getItem('people')) || [
+            { name: "John", money: 100, history: ["Paid rent $50", "Bought groceries $50"] },
+            { name: "Alice", money: 150, history: ["Borrowed for car repair $150"] },
+            { name: "Bob", money: 200, history: ["Loan for medical expenses $200"] }
+        ];
+
+        const adminViewBtn = document.getElementById("adminViewBtn");
+        const addPersonBtn = document.getElementById("addPersonBtn");
+        const addPersonSubmitBtn = document.getElementById("addPersonSubmitBtn");
+        const addRecordSubmitBtn = document.getElementById("addRecordSubmitBtn");
+        const peopleList = document.getElementById("peopleList");
+        const searchInput = document.getElementById("searchInput");
+
+        // Function to render people list
+        function renderPeopleList(peopleData) {
+            peopleList.innerHTML = "";
+            const dataToShow = peopleData || people;
+            dataToShow.forEach(person => {
+                const listItem = document.createElement("li");
+                const personName = document.createElement("span");
+                personName.textContent = person.name;
+                const addRecordBtn = document.createElement("button");
+                addRecordBtn.textContent = "Add Record";
+                addRecordBtn.classList.add("addRecordBtn");
+                addRecordBtn.addEventListener("click", () => openRecordModal(person));
+                listItem.appendChild(personName);
+                listItem.appendChild(addRecordBtn);
+                listItem.addEventListener("click", () => showPersonHistory(person));
+                peopleList.appendChild(listItem);
+            });
+        }
+
+        // Function to show person's history
+        function showPersonHistory(person) {
+            const moneyHistory = document.createElement("div");
+            moneyHistory.classList.add("money-history");
+            moneyHistory.innerHTML = "<h3>Money History</h3>";
+            person.history.forEach(record => {
+                const recordItem = document.createElement("div");
+                recordItem.classList.add("record");
+                recordItem.textContent = record;
+                moneyHistory.appendChild(recordItem);
+            });
+            alertify.alert(`${person.name}'s Money History`, moneyHistory.outerHTML);
+        }
+
+        // Function to open add record modal
+        function openRecordModal(person) {
+            document.getElementById("addRecordModal").style.display = "block";
+            addRecordSubmitBtn.onclick = function() {
+                addRecord(person);
+            };
+        }
+
+        // Function to add record for a person
+        function addRecord(person) {
+            const recordAmount = parseFloat(document.getElementById("recordAmount").value);
+            const recordDescription = document.getElementById("recordDescription").value;
+            if (!isNaN(recordAmount) && recordDescription.trim() !== "") {
+                const formattedRecord = `${recordDescription} $${recordAmount}`;
+                person.money += recordAmount;
+                const currentDate = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
+                const formattedRecordWithDate = `${formattedRecord} (Date: ${currentDate})`;
+                person.history.push(formattedRecordWithDate);
+                closeModal("addRecordModal");
+                renderPeopleList();
+                // Save data to localStorage
+                localStorage.setItem('people', JSON.stringify(people));
+            } else {
+                alert("Invalid input! Please enter a valid amount and description.");
+            }
+        }
+
+        // Function to close modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        // Event listener for admin view button
+        adminViewBtn.addEventListener("click", () => {
+            const isAdminView = adminViewBtn.textContent === "Admin View";
+            if (isAdminView) {
+                adminViewBtn.textContent = "Default View";
+                addPersonBtn.style.display = "block";
+            } else {
+                adminViewBtn.textContent = "Admin View";
+                addPersonBtn.style.display = "none";
+                closeModal("addPersonModal");
+                closeModal("addRecordModal");
+            }
+        });
+
+        // Event listener for add new person button
+        addPersonBtn.addEventListener("click", () => {
+            document.getElementById("addPersonModal").style.display = "block";
+        });
+
+        // Event listener for add new person form submission
+        addPersonSubmitBtn.addEventListener("click", () => {
+            const personName = document.getElementById("personName").value;
+            if (personName.trim() !== "") {
+                people.push({ name: personName, money: 0, history: [] });
+                closeModal("addPersonModal");
+                renderPeopleList();
+                // Save data to localStorage
+                localStorage.setItem('people', JSON.stringify(people));
+            } else {
+                alert("Please enter a valid name for the person.");
+            }
+        });
+
+        // Event listener for search input
+        searchInput.addEventListener("input", () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredPeople = people.filter(person => person.name.toLowerCase().includes(searchTerm));
+            renderPeopleList(filteredPeople);
+        });
+
+        // Initial rendering of people list
+        renderPeopleList();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/alertifyjs/build/alertify.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs/build/css/alertify.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs/build/css/themes/default.min.css" />
+</body>
+</html>
